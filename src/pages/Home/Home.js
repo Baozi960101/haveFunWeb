@@ -23,7 +23,10 @@ import villagersTest01 from "../../images/villagersTest01.jpeg";
 import villagersTest02 from "../../images/villagersTest02.jpeg";
 import villagersTest03 from "../../images/villagersTest03.jpeg";
 import villagersTest04 from "../../images/villagersTest04.jpeg";
-import lineTest from "../../images/lineTest.jpg";
+import {
+  ClassificationPostRightContent,
+  ClassificationLinePostRWD,
+} from "../../global/QrCode";
 
 const AnnouncementBox = styled.div`
   font-size: 16px;
@@ -701,62 +704,6 @@ const ClassificationPostRight = styled.div`
     display: none;
   }
 `;
-
-const ClassificationPostRightLine = styled.img`
-  width: 90%;
-  margin: 0 5% 40px 5%;
-  cursor: pointer;
-`;
-
-const ClassificationPostLeftContentText = styled.div`
-  font-size: 20px;
-  font-weight: 600;
-  width: 90%;
-  padding: 0px 5%;
-`;
-
-const ClassificationPostRightContent = () => {
-  return (
-    <>
-      <ClassificationPostLeftContentTitle
-        style={{ marginBottom: "30px", color: "red", width: "120px" }}
-      >
-        加入哈企鵝群
-      </ClassificationPostLeftContentTitle>
-      <ClassificationPostRightLine alt="Line" src={lineTest} />
-      <ClassificationPostLeftContentText>
-        「husky」這個詞的起源是一群住在北極的愛斯基摩人（又名因紐特人）。是因為英國商船的水手給"Eskimos"稱為「Huskimos」又簡稱為「哈士奇」。而愛斯基摩人飼養哈士奇的紀錄最早是從1852年才開始記載。
-      </ClassificationPostLeftContentText>
-      <ClassificationPostLeftContentText
-        style={{ marginTop: "30px", color: "blue" }}
-      >
-        哈企鵝敲口愛~~~
-      </ClassificationPostLeftContentText>
-    </>
-  );
-};
-
-const ClassificationLinePostRWDBox = styled.div`
-  margin-bottom: 60px;
-  width: 90%;
-  margin: 0 5% 50px 5%;
-  box-sizing: border-box;
-  display: none;
-
-  @media screen and (max-width: 799px) {
-    display: block;
-  }
-`;
-
-const ClassificationLinePostRWD = () => {
-  return (
-    <>
-      <ClassificationLinePostRWDBox>
-        <ClassificationPostRightContent />
-      </ClassificationLinePostRWDBox>
-    </>
-  );
-};
 
 const AnimeContent = () => {
   return (
