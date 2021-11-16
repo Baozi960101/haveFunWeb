@@ -96,7 +96,7 @@ const BigBulletinBoardImgBox = styled.div`
 `;
 
 const BigBulletinBoardImg = styled.img`
-  height: 100%;
+  width: 100%;
 `;
 
 const BigBulletinBoardTitle = styled.div`

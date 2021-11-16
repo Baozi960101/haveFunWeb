@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import Marquee from "react-fast-marquee";
 import {
@@ -27,6 +28,10 @@ import {
   ClassificationPostRightContent,
   ClassificationLinePostRWD,
 } from "../../global/QrCode";
+import { SlugContext } from "../../global/context";
+import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
+import useHandleArticle from "../../global/useHandleArticle";
+import { TestURL } from "../../global/API";
 
 const AnnouncementBox = styled.div`
   font-size: 16px;
@@ -128,7 +133,7 @@ const RWDMainPostTitle = styled.div`
   }
 `;
 
-const MainPostTitle = () => {
+const MainPostTitleThree = () => {
   return (
     <>
       <PcMainPostTitle>
@@ -718,18 +723,81 @@ const AnimeContent = () => {
   );
 };
 
+//以下是新的
+
+const MainBox = styled.div`
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1250px;
+  margin: 50px auto;
+  box-sizing: border-box;
+  font-weight: 600;
+
+  @media screen and (min-width: 800px) and (max-width: 1100px) {
+    max-width: 800px;
+  }
+  @media screen and (max-width: 799px) {
+    display: block;
+  }
+`;
+
+const MainLeftNoBorderBox = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+const MainLeftBox = styled.div`
+  width: 65%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-top: 1px solid #7a7a7a;
+  border-bottom: 1px solid #7a7a7a;
+  box-sizing: border-box;
+  padding: 50px 0;
+  margin-top: 50px;
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
+`;
+
 export default function Home() {
+  const { FetchFiveItem, fiveItemPost, FetchDate, post } = useHandleArticle();
+
+  useEffect(() => {
+    // FetchDate(TestURL);
+    // FetchFiveItem(TestURL);
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Announcement />
-      <MainPostTitle />
+      <MainPostTitleThree />
       <MainPost>
         <MainPostLeft />
         <MainPostMiddle />
         <MainPostRight />
       </MainPost>
-      <PlayGameTiTle />
-      <PlayGamePost />
+      <MainBox>
+        <MainPostTitle style={{ width: "80px" }}>玩遊戲啦</MainPostTitle>
+      </MainBox>
+      <MainBox>
+        {fiveItemPost.map((data) => {
+          return (
+            <BigBulletinBoard
+              key={data.crawler_No}
+              to={data.crawler_No}
+              src={data.crawler_PicUrl}
+              title={`${data.crawler_Title.substring(0, 25)}...`}
+              time={data.crawler_Date}
+            />
+          );
+        })}
+      </MainBox>
       {/* 以下是資訊欄 */}
       <ClassificationPost>
         <ClassificationPostLeftBox>
@@ -759,8 +827,41 @@ export default function Home() {
         <ClassificationPostRight>
           <ClassificationPostRightContent />
         </ClassificationPostRight>
+
+        <MainLeftBox>
+          <MainLeftNoBorderBox>
+            <MainPostTitle style={{ width: "100px" }}>動漫控樂園</MainPostTitle>
+          </MainLeftNoBorderBox>
+          {fiveItemPost.map((data) => {
+            return (
+              <BigBulletinBoard
+                key={data.crawler_No}
+                to={data.crawler_No}
+                src={data.crawler_PicUrl}
+                title={`${data.crawler_Title.substring(0, 25)}...`}
+                time={data.crawler_Date}
+              />
+            );
+          })}
+        </MainLeftBox>
       </ClassificationPost>
       <ClassificationLinePostRWD />
+      <MainBox>
+        <MainPostTitle style={{ width: "140px" }}>你可能會有興趣</MainPostTitle>
+      </MainBox>
+      <MainBox>
+        {fiveItemPost.map((data) => {
+          return (
+            <BigBulletinBoard
+              key={data.crawler_No}
+              to={data.crawler_No}
+              src={data.crawler_PicUrl}
+              title={`${data.crawler_Title.substring(0, 25)}...`}
+              time={data.crawler_Date}
+            />
+          );
+        })}
+      </MainBox>
     </>
   );
 }
