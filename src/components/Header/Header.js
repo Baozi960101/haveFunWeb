@@ -5,6 +5,10 @@ import menu from "../../images/menu.svg";
 import downArrow from "../../images/downArrow.svg";
 import close from "../../images/close.svg";
 import upArrow from "../../images/upArrow.svg";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+const Goto = styled(Link)``;
 
 const Top = styled.div`
   max-width: 1250px;
@@ -141,11 +145,17 @@ export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [topBottomArise, setTopBottomArise] = useState(false);
 
+  let location = useLocation();
+
   useEffect(() => {
     window.onscroll = function () {
       scrollFunction(setTopBottomArise);
     };
   }, []);
+
+  useEffect(() => {
+    topFunction();
+  }, [location]);
 
   function menuChange() {
     setShowMenu(!showMenu);
@@ -153,9 +163,11 @@ export default function Header() {
 
   return (
     <>
-      <Top>
-        <Logo src={logoImg} />
-      </Top>
+      <Goto to="/">
+        <Top>
+          <Logo src={logoImg} />
+        </Top>
+      </Goto>
       <HeaderBox>
         <HeaderContent>
           <Menu src={showMenu ? close : menu} onClick={menuChange} />

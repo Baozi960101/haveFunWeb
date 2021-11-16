@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import lineTest from "../images/lineTest.jpg";
+import line from "../images/Line.jpg";
 
 const ClassificationPostLeftContentTitle = styled.div`
   font-size: 20px;
@@ -7,6 +8,7 @@ const ClassificationPostLeftContentTitle = styled.div`
   width: 80px;
   padding-bottom: 7px;
   border-bottom: 3.5px solid #ae2d53;
+  margin-left: 5%;
 `;
 
 const ClassificationPostRightLine = styled.img`
@@ -31,6 +33,7 @@ export const ClassificationPostRightContent = () => {
         加入哈企鵝群
       </ClassificationPostLeftContentTitle>
       <ClassificationPostRightLine alt="Line" src={lineTest} />
+      {/* line */}
       <ClassificationPostLeftContentText>
         「husky」這個詞的起源是一群住在北極的愛斯基摩人（又名因紐特人）。是因為英國商船的水手給"Eskimos"稱為「Huskimos」又簡稱為「哈士奇」。而愛斯基摩人飼養哈士奇的紀錄最早是從1852年才開始記載。
       </ClassificationPostLeftContentText>
