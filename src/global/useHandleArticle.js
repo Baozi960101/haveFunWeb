@@ -9,10 +9,18 @@ export default function useHandleArticle() {
   const [nextPage, setNextPage] = useState("");
   const [nowLastPage, setNowLastPage] = useState("");
 
+  const [nowLoading, setNowLoading] = useState(false);
+
+  const [twoItemPost, setTwoItemPost] = useState([]);
+  //只能精選2個的大型資料
+
   const [fiveItemPost, setFiveItemPost] = useState([]);
   //只拿五筆的大型資料
+  const [verticalFourPost, setVerticalFourPost] = useState([]);
+  //只拿直立式的4筆資料
 
   async function FetchDate(API) {
+    setNowLoading(true);
     const res = await fetch(API);
     const data = await res.json();
     setPost(data.data);
@@ -20,12 +28,38 @@ export default function useHandleArticle() {
     setPrevPage(data.links.prev);
     setNextPage(data.links.next);
     setNowLastPage(data.meta.last_page);
+    setNowLoading(false);
+  }
+
+  async function FetchTwoItem(API) {
+    const res = await fetch(API);
+    const data = await res.json();
+    return data.data.slice(0, 2);
   }
 
   async function FetchFiveItem(API) {
     const res = await fetch(API);
     const data = await res.json();
-    setFiveItemPost(data.data.slice(0, 5));
+    return data.data.slice(0, 5);
+  }
+
+  async function FetchVerticalFourItem(API) {
+    const res = await fetch(API);
+    const data = await res.json();
+    return data.data.slice(0, 4);
+  }
+
+  async function allfetch(API) {
+    setNowLoading(true);
+    const [twoPost, fourPost, fivePost] = await Promise.all([
+      FetchTwoItem(API),
+      FetchVerticalFourItem(API),
+      FetchFiveItem(API),
+    ]);
+    setTwoItemPost(twoPost);
+    setVerticalFourPost(fourPost);
+    setFiveItemPost(fivePost);
+    setNowLoading(false);
   }
 
   async function ChangePrevPage() {
@@ -59,8 +93,11 @@ export default function useHandleArticle() {
   }
 
   return {
-    FetchFiveItem,
     fiveItemPost,
+    verticalFourPost,
+    twoItemPost,
+    setFiveItemPost,
+    FetchFiveItem,
     FetchDate,
     post,
     setPost,
@@ -74,5 +111,7 @@ export default function useHandleArticle() {
     setNowLastPage,
     ChangeNextPage,
     ChangePrevPage,
+    allfetch,
+    nowLoading,
   };
 }

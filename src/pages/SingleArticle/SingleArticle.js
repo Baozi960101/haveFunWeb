@@ -6,8 +6,8 @@ import {
 } from "../../global/QrCode";
 import { SlugContext } from "../../global/context";
 import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
-import useHandleArticle from "../../global/useHandleArticle";
 import { TestURL, AloneApi } from "../../global/API";
+import { LoadingBox } from "../../global/Loading";
 
 const MainBox = styled.div`
   font-size: 20px;
@@ -127,9 +127,12 @@ const MainSingleArticle = ({ label, title, time, src, content }) => {
 export default function AlonePost() {
   const { aloneSlug } = useContext(SlugContext);
   const [singlePost, setSinglePost] = useState([]);
-  const { FetchFiveItem, fiveItemPost } = useHandleArticle();
+  const [fiveItemPost, setFiveItemPost] = useState([]);
+  const [nowLoading, setNowLoading] = useState(false);
+  //只拿五筆的大型資料
 
   useEffect(() => {
+    setNowLoading(true);
     if (aloneSlug !== "") {
       fetch(AloneApi(aloneSlug))
         .then((res) => res.json())
@@ -137,13 +140,19 @@ export default function AlonePost() {
           setSinglePost([data.data]);
         });
     }
-    FetchFiveItem(TestURL);
+    fetch(TestURL)
+      .then((res) => res.json())
+      .then((data) => {
+        setFiveItemPost(data.data.slice(0, 5));
+        setNowLoading(false);
+      });
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aloneSlug]);
 
   return (
     <>
+      {nowLoading && <LoadingBox />}
       <MainBox>
         <MainPostLeft>
           {singlePost.map((data) => {

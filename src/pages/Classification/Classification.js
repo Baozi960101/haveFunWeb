@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ChangePageButton } from "../../global/changePage";
 import {
@@ -12,6 +12,7 @@ import {
   BigBulletinBoard,
   MainPostTitle,
 } from "../../global/Post";
+import { LoadingBox } from "../../global/Loading";
 
 const MainBox = styled.div`
   font-size: 20px;
@@ -68,25 +69,25 @@ const ClassificationArticleMainBox = styled.div`
 `;
 
 export default function ClassificationPost() {
-  const {
-    FetchFiveItem,
-    fiveItemPost,
-    FetchDate,
-    post,
-    page,
-    ChangeNextPage,
-    ChangePrevPage,
-  } = useHandleArticle();
+  const { FetchDate, post, page, ChangeNextPage, ChangePrevPage, nowLoading } =
+    useHandleArticle();
+  const [fiveItemPost, setFiveItemPost] = useState([]);
+  //只拿五筆的大型資料
 
   useEffect(() => {
     FetchDate(TestURL);
-    FetchFiveItem(TestURL);
+    fetch(TestURL)
+      .then((res) => res.json())
+      .then((data) => {
+        setFiveItemPost(data.data.slice(0, 5));
+      });
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
+      {nowLoading && <LoadingBox />}
       <MainBox>
         <MainPostLeft>
           <MainTitle>星娛樂趣</MainTitle>

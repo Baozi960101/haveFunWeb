@@ -37,9 +37,6 @@ export default function App() {
             <Route exact path="/classification">
               <Classification />
             </Route>
-            <Route exact path="/01">
-              <SingleArticle />
-            </Route>
             <Route path="/:slug">
               <BlogSinglePost />
             </Route>

@@ -6,32 +6,19 @@ import {
   SlideShowMainPost,
   ClassificationSlideshow,
 } from "./Slideshow";
-import special01 from "../../images/special.jpeg";
-import special02 from "../../images/special02.jfif";
-import rightText01 from "../../images/rightText01.jpg";
-import rightText02 from "../../images/rightText02.jpg";
-import rightText03 from "../../images/rightText03.jpg";
-import rightText04 from "../../images/rightText04.jpg";
-import playGame01 from "../../images/playGame01.jpeg";
-import playGame02 from "../../images/playGame02.jfif";
-import playGame03 from "../../images/playGame03.webp";
-import playGame04 from "../../images/playGame04.jpg";
-import playGame05 from "../../images/playGame05.jpg";
-import cityTest01 from "../../images/cityTest01.jpg";
-import cityTest02 from "../../images/cityTest02.jpg";
-import cityTest03 from "../../images/cityTest03.jpg";
-import villagersTest01 from "../../images/villagersTest01.jpeg";
-import villagersTest02 from "../../images/villagersTest02.jpeg";
-import villagersTest03 from "../../images/villagersTest03.jpeg";
-import villagersTest04 from "../../images/villagersTest04.jpeg";
 import {
   ClassificationPostRightContent,
   ClassificationLinePostRWD,
 } from "../../global/QrCode";
-import { SlugContext } from "../../global/context";
 import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
 import useHandleArticle from "../../global/useHandleArticle";
 import { TestURL } from "../../global/API";
+import { Link } from "react-router-dom";
+import { LoadingBox } from "../../global/Loading";
+
+const Goto = styled(Link)`
+  text-decoration: none;
+`;
 
 const AnnouncementBox = styled.div`
   font-size: 16px;
@@ -83,18 +70,23 @@ const MarqueeText = styled.div`
   }
 `;
 
-const Announcement = () => {
+const Announcement = ({ content }) => {
   return (
     <AnnouncementBox>
       <AnnouncementTitle>最新消息</AnnouncementTitle>
       <div style={{ position: "relative", width: "1110px" }}>
         <Marquee speed="100" pauseOnHover="true">
-          <MarqueeText>
-            S5第一場大型爭城戰開始喇~~《三國志．戰略版》[突然直播]#18
-          </MarqueeText>
-          <MarqueeText>
-            S9第一場大型爭城戰開始喇~~《三國志．戰略版》#20
-          </MarqueeText>
+          {content.map((data) => {
+            return (
+              <>
+                <Goto to={`/${data.crawler_No}`}>
+                  <MarqueeText key={data.crawler_No}>
+                    {`${data.crawler_Title.substring(0, 15)}...`}
+                  </MarqueeText>
+                </Goto>
+              </>
+            );
+          })}
         </Marquee>
       </div>
     </AnnouncementBox>
@@ -169,7 +161,7 @@ const MainPostLeftText = styled.div`
   margin-bottom: 20px;
 `;
 
-const MainPostLeft = () => {
+const MainPostLeft = ({ content }) => {
   return (
     <>
       <RWDMainPostTitle>
@@ -177,7 +169,9 @@ const MainPostLeft = () => {
           <MainPostLeftText>玩家焦點</MainPostLeftText>
         </MainPostLeftBox>
       </RWDMainPostTitle>
-      <MainPostLeftBox>{Slideshow()}</MainPostLeftBox>
+      <MainPostLeftBox>
+        <Slideshow content={content} />
+      </MainPostLeftBox>
     </>
   );
 };
@@ -202,16 +196,7 @@ const MainPostMiddleText = styled.div`
   margin-bottom: 20px;
 `;
 
-const Block = styled.div`
-  display: none;
-  width: 25px;
-
-  @media screen and (max-width: 799px) {
-    display: block;
-  }
-`;
-
-const MainPostMiddle = () => {
+const MainPostMiddle = ({ content }) => {
   return (
     <>
       <RWDMainPostTitle>
@@ -220,25 +205,20 @@ const MainPostMiddle = () => {
         </MainPostMiddleBox>
       </RWDMainPostTitle>
       <MainPostMiddleBox>
-        <SlideShowMainPost
-          height="215px"
-          src={special01}
-          fontSize="17px"
-          label="手機遊戲"
-          text="
-    《天堂M》全新職業「死神」降臨！史上最強刺客職業、8月24日開放預先登錄"
-          time="兩個月前"
-        />
-        <Block />
-        <SlideShowMainPost
-          height="215px"
-          src={special02}
-          fontSize="17px"
-          label="手機遊戲"
-          text="
-    【攻略】RO仙境傳說新世代卡片鑲嵌屬性整理"
-          time="兩周前"
-        />
+        {content.map((data) => {
+          return (
+            <SlideShowMainPost
+              height="215px"
+              key={data.crawler_No}
+              to={data.crawler_No}
+              src={data.crawler_PicUrl}
+              fontSize="17px"
+              label={`${data.crawler_Keyword.substring(0, 6)}...`}
+              text={`${data.crawler_Title.substring(0, 25)}...`}
+              time={data.crawler_Date}
+            />
+          );
+        })}
       </MainPostMiddleBox>
     </>
   );
@@ -277,7 +257,7 @@ const MainPostRightImgBox = styled.div`
   height: 100px;
   overflow: hidden;
   box-sizing: border-box;
-  background-color: #c2c2c2;
+  background-color: #f5f5f5;
   margin-right: 30px;
 
   @media screen and (max-width: 799px) {
@@ -337,16 +317,7 @@ const MainPostRightDescribeSubTitle = styled.div`
   }
 `;
 
-const MainPostRightDescribe = ({ label, text }) => {
-  return (
-    <MainPostRightDescribeBox>
-      <MainPostRightDescribeTitle>{label}</MainPostRightDescribeTitle>
-      <MainPostRightDescribeSubTitle>{text}</MainPostRightDescribeSubTitle>
-    </MainPostRightDescribeBox>
-  );
-};
-
-const MainPostRight = () => {
+const MainPostRight = ({ content }) => {
   return (
     <>
       <RWDMainPostTitle>
@@ -354,187 +325,8 @@ const MainPostRight = () => {
           <MainPostLeftText>最新資訊</MainPostLeftText>
         </MainPostRightBox>
       </RWDMainPostTitle>
-
-      <MainPostRightBox>
-        <MainPostRightText>
-          <MainPostRightImg src={rightText01} />
-          <MainPostRightDescribe
-            label="三國系列遊戲"
-            text="開荒攻略，越級打地的極限方法，你真的不看嗎"
-          />
-        </MainPostRightText>
-        <MainPostRightText>
-          <MainPostRightImg src={rightText02} />
-          <MainPostRightDescribe
-            label="三國系列遊戲"
-            text="新賽季爆料④“天下爭鋒”預告：四季變化，秘策致勝"
-          />
-        </MainPostRightText>
-        <MainPostRightText>
-          <MainPostRightImg src={rightText03} />
-          <MainPostRightDescribe
-            label="三國系列遊戲"
-            text="
-          名將大盤點，開荒最優選，選誰開荒看完就懂了"
-          />
-        </MainPostRightText>
-        <MainPostRightText>
-          <MainPostRightImg src={rightText04} />
-          <MainPostRightDescribe
-            label="三國系列遊戲"
-            text="
-          五星武將之中各種武力之最是哪些？來看屬性盤點！"
-          />
-        </MainPostRightText>
-      </MainPostRightBox>
+      <MainPostRightBox>{content}</MainPostRightBox>
     </>
-  );
-};
-
-const PlayGameTiTleBox = styled.div`
-  max-width: 1250px;
-  margin: 30px auto;
-  font-size: 20px;
-  font-weight: 600;
-
-  @media screen and (min-width: 800px) and (max-width: 1100px) {
-    max-width: 800px;
-  }
-  @media screen and (max-width: 799px) {
-    max-width: 97%;
-  }
-`;
-
-const PlayGameTiTle = () => {
-  return (
-    <PlayGameTiTleBox>
-      <MainPostMiddleText>玩遊戲啦</MainPostMiddleText>
-    </PlayGameTiTleBox>
-  );
-};
-
-const PlayGamePostBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 1250px;
-  margin: 0 auto;
-
-  @media screen and (min-width: 800px) and (max-width: 1100px) {
-    max-width: 800px;
-  }
-  @media screen and (max-width: 799px) {
-    max-width: 97%;
-    justify-content: flex-start;
-  }
-`;
-
-const PlayGamePostContent = styled.div`
-  width: 18%;
-
-  @media screen and (max-width: 800px) {
-    width: 30%;
-    margin: 0 auto 20px auto;
-  }
-`;
-const PlayGamePostContentImgBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  width: 100%;
-  height: 140px;
-  cursor: pointer;
-`;
-
-const PlayGamePostContentMainImg = styled.img`
-  height: 100%;
-`;
-
-const PlayGamePostContentImg = ({ src }) => {
-  return (
-    <PlayGamePostContentImgBox>
-      <PlayGamePostContentMainImg src={src} />
-    </PlayGamePostContentImgBox>
-  );
-};
-
-const PlayGamePostContentTitle = styled.div`
-  margin-top: 15px;
-  padding: 0 5px;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-  width: 100%;
-  box-sizing: border-box;
-  cursor: pointer;
-
-  :hover {
-    color: #ae2d53;
-  }
-`;
-
-const PlayGamePostContentTime = styled.div`
-  margin-top: 10px;
-  padding: 0 5px;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const PlayGamePostContentText = ({ text, time }) => {
-  return (
-    <>
-      <PlayGamePostContentTitle>{text}</PlayGamePostContentTitle>
-      <PlayGamePostContentTime>{time}</PlayGamePostContentTime>
-    </>
-  );
-};
-
-const PlayGamePost = () => {
-  return (
-    <PlayGamePostBox>
-      <PlayGamePostContent>
-        <PlayGamePostContentImg src={playGame01} />
-        <PlayGamePostContentText
-          text="《天堂M》全新職業「死神」降臨！史上最強刺客職業、8月24日開放預先登錄"
-          time="兩周前"
-        />
-      </PlayGamePostContent>
-      <PlayGamePostContent>
-        <PlayGamePostContentImg src={playGame02} />
-        <PlayGamePostContentText
-          text="
-          【攻略】RO仙境傳說新世代卡片鑲嵌屬性整理"
-          time="兩周前"
-        />
-      </PlayGamePostContent>
-      <PlayGamePostContent>
-        <PlayGamePostContentImg src={playGame03} />
-        <PlayGamePostContentText
-          text="
-          【RO新世代的誕生】平民最強刀騎養成攻略，二轉PVE最暴力刀騎士 "
-          time="兩周前"
-        />
-      </PlayGamePostContent>
-      <PlayGamePostContent>
-        <PlayGamePostContentImg src={playGame04} />
-        <PlayGamePostContentText
-          text="《天諭手遊》萌新必知攻略匯總"
-          time="兩周前"
-        />
-      </PlayGamePostContent>
-      <PlayGamePostContent>
-        <PlayGamePostContentImg src={playGame05} />
-        <PlayGamePostContentText
-          text="
-          《三國志戰略版》全位置最強內政將名單與技能　S3必換戰法列表"
-          time="兩周前"
-        />
-      </PlayGamePostContent>
-    </PlayGamePostBox>
   );
 };
 
@@ -560,7 +352,7 @@ const ClassificationPostLeftBox = styled.div`
     width: 100%;
   }
 `;
-const ClassificationPostLeftContent = styled.div`
+const ArticleBox = styled.div`
   width: 100%;
   border-top: 1px solid #7a7a7a;
   border-bottom: 1px solid #7a7a7a;
@@ -571,7 +363,7 @@ const ClassificationPostLeftContent = styled.div`
   margin-bottom: 50px;
 `;
 
-const ClassificationPostLeftContentBox = styled.div`
+const VerticalArticleBox = styled.div`
   width: 48%;
   font-size: 16px;
   font-weight: 600;
@@ -581,7 +373,7 @@ const ClassificationPostLeftContentBox = styled.div`
   height: 550px;
 `;
 
-const ClassificationPostLeftContentTitle = styled.div`
+const ArticleMainTitle = styled.div`
   font-size: 20px;
   font-weight: 600;
   width: 80px;
@@ -589,13 +381,15 @@ const ClassificationPostLeftContentTitle = styled.div`
   border-bottom: 3.5px solid #ae2d53;
 `;
 
-const ClassificationPostLeftContentMain = ({ label, text, time }) => {
+const ClassificationPostLeftContentMain = ({ to, label, text, time }) => {
   return (
     <MainPostRightDescribeBox style={{ width: "70%" }}>
       <MainPostRightDescribeTitle>{label}</MainPostRightDescribeTitle>
-      <MainPostRightDescribeSubTitle>
-        {`${text.substr(0, 20)}..`}
-      </MainPostRightDescribeSubTitle>
+      <Goto to={`/${to}`}>
+        <MainPostRightDescribeSubTitle>
+          {`${text.substr(0, 20)}..`}
+        </MainPostRightDescribeSubTitle>
+      </Goto>
       <MainPostRightDescribeSubTitle
         style={{ fontSize: "12px", cursor: "auto" }}
       >
@@ -605,95 +399,57 @@ const ClassificationPostLeftContentMain = ({ label, text, time }) => {
   );
 };
 
-const ClassificationPostLeftMain = () => {
+// const ClassificationPostLeftMain = () => {
+//   return (
+//     <VerticalArticleBox>
+//       <ArticleMainTitle>
+//         都市傳說
+//       </ArticleMainTitle>
+//       <SlideShowMainPost
+//         height="227px"
+//         src={cityTest01}
+//         fontSize="17px"
+//         label="都市傳說"
+//         text="「恐怖水缸」讓你跟鱷魚面對面　恐懼指數破表「敢挑戰的都是勇者」"
+//         time="三個月前"
+//       />
+//       <MainPostRightText>
+//         <MainPostRightImg width="100%" height="auto" src={cityTest02} />
+//         <ClassificationPostLeftContentMain
+//           label="都市傳說"
+//           text="【真相】這實驗將人變成冷血怪物！與神對話的都市傳說真相！"
+//           time="六個月前 ago"
+//         />
+//       </MainPostRightText>
+//       <MainPostRightText>
+//         <MainPostRightImg width="100%" height="auto" src={cityTest03} />
+//         <ClassificationPostLeftContentMain
+//           label="都市傳說"
+//           text="120萬人護送500噸黃金，為何黃金不翼而飛？尋找末代沙皇最後的遺產「曉涵哥來了」"
+//           time="三個月前 ago"
+//         />
+//       </MainPostRightText>
+//     </VerticalArticleBox>
+//   );
+// };
+
+const VerticalFourArticle = ({ to, src, label, text, time }) => {
   return (
-    <ClassificationPostLeftContentBox>
-      <ClassificationPostLeftContentTitle>
-        都市傳說
-      </ClassificationPostLeftContentTitle>
-      <SlideShowMainPost
-        height="227px"
-        src={cityTest01}
-        fontSize="17px"
-        label="都市傳說"
-        text="「恐怖水缸」讓你跟鱷魚面對面　恐懼指數破表「敢挑戰的都是勇者」"
-        time="三個月前"
-      />
+    <>
       <MainPostRightText>
-        <MainPostRightImg width="100%" height="auto" src={cityTest02} />
+        <Goto to={`/${to}`}>
+          <MainPostRightImg width="100%" height="auto" src={src} />
+        </Goto>
         <ClassificationPostLeftContentMain
-          label="都市傳說"
-          text="【真相】這實驗將人變成冷血怪物！與神對話的都市傳說真相！"
-          time="六個月前 ago"
+          to={to}
+          label={label}
+          text={text}
+          time={time}
         />
       </MainPostRightText>
-      <MainPostRightText>
-        <MainPostRightImg width="100%" height="auto" src={cityTest03} />
-        <ClassificationPostLeftContentMain
-          label="都市傳說"
-          text="120萬人護送500噸黃金，為何黃金不翼而飛？尋找末代沙皇最後的遺產「曉涵哥來了」"
-          time="三個月前 ago"
-        />
-      </MainPostRightText>
-    </ClassificationPostLeftContentBox>
+    </>
   );
 };
-
-const ClassificationPostRightMain = () => {
-  return (
-    <ClassificationPostLeftContentBox>
-      <ClassificationPostLeftContentTitle>
-        鄉民話題
-      </ClassificationPostLeftContentTitle>
-      <MainPostRightText>
-        <MainPostRightImg width="100%" height="auto" src={villagersTest01} />
-        <ClassificationPostLeftContentMain
-          label="勵志語綠"
-          text="如果你越來越累，越來越不想上班……"
-          time="8小時前 ago"
-        />
-      </MainPostRightText>
-      <MainPostRightText>
-        <MainPostRightImg width="100%" height="auto" src={villagersTest02} />
-        <ClassificationPostLeftContentMain
-          label="勵志語綠"
-          text="
-          員工積極性不高？究竟是什麼原因，這10個誤區管理者須避免"
-          time="8小時前 ago"
-        />
-      </MainPostRightText>
-      <MainPostRightText>
-        <MainPostRightImg width="100%" height="auto" src={villagersTest03} />
-        <ClassificationPostLeftContentMain
-          label="勵志語綠"
-          text="
-          一輩子要記住三句話，「看人長處、幫人難處、記人好處」。"
-          time="1小時前 ago"
-        />
-      </MainPostRightText>
-      <MainPostRightText>
-        <MainPostRightImg width="100%" height="auto" src={villagersTest04} />
-        <ClassificationPostLeftContentMain
-          label="勵志語綠"
-          text="
-          蔡瀾：人絕對可以貌相！從「這幾類人臉上」就可以看出深淺好壞"
-          time="4小時前 ago"
-        />
-      </MainPostRightText>
-    </ClassificationPostLeftContentBox>
-  );
-};
-
-const BoxBorder = styled.div`
-  width: 100%;
-  width: 100%;
-  border-top: 1px solid #7a7a7a;
-  border-bottom: 1px solid #7a7a7a;
-  box-sizing: border-box;
-  padding: 50px 0;
-  margin-bottom: 50px;
-  margin-top: 50px;
-`;
 
 const ClassificationPostRight = styled.div`
   width: 30%;
@@ -709,21 +465,6 @@ const ClassificationPostRight = styled.div`
     display: none;
   }
 `;
-
-const AnimeContent = () => {
-  return (
-    <BoxBorder>
-      <ClassificationPostLeftContentTitle
-        style={{ marginBottom: "30px", width: "102px" }}
-      >
-        動漫控樂園
-      </ClassificationPostLeftContentTitle>
-      <PlayGamePost />
-    </BoxBorder>
-  );
-};
-
-//以下是新的
 
 const MainBox = styled.div`
   font-size: 20px;
@@ -763,105 +504,125 @@ const MainLeftBox = styled.div`
   }
 `;
 
+function VerticalFourArticleMain(FourItemPost) {
+  return FourItemPost.map((data) => {
+    return (
+      <VerticalFourArticle
+        key={data.crawler_No}
+        to={data.crawler_No}
+        label={`${data.crawler_Keyword.substring(0, 10)}...`}
+        src={data.crawler_PicUrl}
+        text={`${data.crawler_Title.substring(0, 25)}...`}
+        time={data.crawler_Date}
+      />
+    );
+  });
+}
+
+function MainBigBulletinBoard(fiveItemPost) {
+  return fiveItemPost.map((data) => {
+    return (
+      <BigBulletinBoard
+        key={data.crawler_No}
+        to={data.crawler_No}
+        src={data.crawler_PicUrl}
+        title={`${data.crawler_Title.substring(0, 25)}...`}
+        time={data.crawler_Date}
+      />
+    );
+  });
+}
+
 export default function Home() {
-  const { FetchFiveItem, fiveItemPost, FetchDate, post } = useHandleArticle();
+  const { fiveItemPost, verticalFourPost, twoItemPost, allfetch, nowLoading } =
+    useHandleArticle();
 
   useEffect(() => {
-    // FetchDate(TestURL);
-    // FetchFiveItem(TestURL);
+    allfetch(TestURL);
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <Announcement />
+      {nowLoading && <LoadingBox />}
+      <Announcement content={twoItemPost} />
+      {/* 公告欄 */}
       <MainPostTitleThree />
       <MainPost>
-        <MainPostLeft />
-        <MainPostMiddle />
-        <MainPostRight />
+        <MainPostLeft content={verticalFourPost} />
+        <MainPostMiddle content={twoItemPost} />
+        <MainPostRight content={VerticalFourArticleMain(verticalFourPost)} />
       </MainPost>
+      {/* 至頂廣告 */}
       <MainBox>
         <MainPostTitle style={{ width: "80px" }}>玩遊戲啦</MainPostTitle>
       </MainBox>
-      <MainBox>
-        {fiveItemPost.map((data) => {
-          return (
-            <BigBulletinBoard
-              key={data.crawler_No}
-              to={data.crawler_No}
-              src={data.crawler_PicUrl}
-              title={`${data.crawler_Title.substring(0, 25)}...`}
-              time={data.crawler_Date}
-            />
-          );
-        })}
-      </MainBox>
+      <MainBox>{MainBigBulletinBoard(fiveItemPost)}</MainBox>
       {/* 以下是資訊欄 */}
       <ClassificationPost>
         <ClassificationPostLeftBox>
-          <ClassificationPostLeftContent>
-            <ClassificationPostLeftMain />
-            <ClassificationPostRightMain />
-          </ClassificationPostLeftContent>
-          <ClassificationPostLeftContentTitle
-            style={{ marginBottom: "30px", width: "120px" }}
-          >
+          <ArticleBox>
+            <VerticalArticleBox>
+              <ArticleMainTitle>鄉民話題</ArticleMainTitle>
+              {VerticalFourArticleMain(verticalFourPost)}
+            </VerticalArticleBox>
+            <VerticalArticleBox>
+              <ArticleMainTitle>鄉民話題</ArticleMainTitle>
+              {VerticalFourArticleMain(verticalFourPost)}
+            </VerticalArticleBox>
+          </ArticleBox>
+          <MainLeftBox style={{ width: "100%", border: "0" }}>
+            <MainLeftNoBorderBox>
+              <MainPostTitle style={{ width: "100px" }}>
+                動漫控樂園
+              </MainPostTitle>
+            </MainLeftNoBorderBox>
+            {MainBigBulletinBoard(fiveItemPost)}
+          </MainLeftBox>
+          <ArticleMainTitle style={{ marginBottom: "30px", width: "120px" }}>
             三國志戰略迷
-          </ClassificationPostLeftContentTitle>
-          {ClassificationSlideshow()}
-          <AnimeContent />
-          <ClassificationPostLeftContent style={{ borderTop: "0" }}>
-            <ClassificationPostLeftMain />
-            <ClassificationPostRightMain />
-          </ClassificationPostLeftContent>
-          <AnimeContent />
-          <ClassificationPostLeftContentTitle
-            style={{ marginBottom: "30px", width: "120px" }}
-          >
+          </ArticleMainTitle>
+          {/* {ClassificationSlideshow()} */}
+          <ClassificationSlideshow content={verticalFourPost} />
+          <ArticleBox style={{ borderTop: "0" }}>
+            <VerticalArticleBox>
+              <ArticleMainTitle>鄉民話題</ArticleMainTitle>
+              {VerticalFourArticleMain(verticalFourPost)}
+            </VerticalArticleBox>
+            <VerticalArticleBox>
+              <ArticleMainTitle>鄉民話題</ArticleMainTitle>
+              {VerticalFourArticleMain(verticalFourPost)}
+            </VerticalArticleBox>
+          </ArticleBox>
+          <MainLeftBox style={{ width: "100%", border: "0" }}>
+            <MainLeftNoBorderBox>
+              <MainPostTitle style={{ width: "100px" }}>
+                動漫控樂園
+              </MainPostTitle>
+            </MainLeftNoBorderBox>
+            {MainBigBulletinBoard(fiveItemPost)}
+          </MainLeftBox>
+          <ArticleMainTitle style={{ marginBottom: "30px", width: "120px" }}>
             三國志戰略迷
-          </ClassificationPostLeftContentTitle>
-          {ClassificationSlideshow()}
+          </ArticleMainTitle>
+          <ClassificationSlideshow content={verticalFourPost} />
         </ClassificationPostLeftBox>
         <ClassificationPostRight>
           <ClassificationPostRightContent />
         </ClassificationPostRight>
-
         <MainLeftBox>
           <MainLeftNoBorderBox>
             <MainPostTitle style={{ width: "100px" }}>動漫控樂園</MainPostTitle>
           </MainLeftNoBorderBox>
-          {fiveItemPost.map((data) => {
-            return (
-              <BigBulletinBoard
-                key={data.crawler_No}
-                to={data.crawler_No}
-                src={data.crawler_PicUrl}
-                title={`${data.crawler_Title.substring(0, 25)}...`}
-                time={data.crawler_Date}
-              />
-            );
-          })}
+          {MainBigBulletinBoard(fiveItemPost)}
         </MainLeftBox>
       </ClassificationPost>
       <ClassificationLinePostRWD />
       <MainBox>
         <MainPostTitle style={{ width: "140px" }}>你可能會有興趣</MainPostTitle>
       </MainBox>
-      <MainBox>
-        {fiveItemPost.map((data) => {
-          return (
-            <BigBulletinBoard
-              key={data.crawler_No}
-              to={data.crawler_No}
-              src={data.crawler_PicUrl}
-              title={`${data.crawler_Title.substring(0, 25)}...`}
-              time={data.crawler_Date}
-            />
-          );
-        })}
-      </MainBox>
+      <MainBox>{MainBigBulletinBoard(fiveItemPost)}</MainBox>
     </>
   );
 }
