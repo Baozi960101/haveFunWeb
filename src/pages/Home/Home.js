@@ -34,6 +34,7 @@ const AnnouncementBox = styled.div`
 
   @media screen and (min-width: 800px) and (max-width: 1100px) {
     max-width: 800px;
+    margin-bottom: 50px;
   }
   @media screen and (max-width: 799px) {
     max-width: 97%;
@@ -59,7 +60,7 @@ const AnnouncementTitle = styled.div`
 const MarqueeText = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 500px;
   height: 100%;
   padding: 0 10px;
   color: black;
@@ -67,6 +68,20 @@ const MarqueeText = styled.div`
 
   @media screen and (max-width: 799px) {
     font-size: 14px;
+    height: 50px;
+  }
+
+  @media screen and (min-width: 800px) and (max-width: 1200px) {
+    height: 50px;
+  }
+`;
+
+const AnnouncementContent = styled.div`
+  width: 1110px;
+  position: relative;
+
+  @media screen and (min-width: 800px) and (max-width: 1300px) {
+    max-width: 80%;
   }
 `;
 
@@ -74,21 +89,21 @@ const Announcement = ({ content }) => {
   return (
     <AnnouncementBox>
       <AnnouncementTitle>最新消息</AnnouncementTitle>
-      <div style={{ position: "relative", width: "1110px" }}>
+      <AnnouncementContent>
         <Marquee speed="100" pauseOnHover="true">
           {content.map((data) => {
             return (
               <>
                 <Goto to={`/${data.crawler_No}`}>
                   <MarqueeText key={data.crawler_No}>
-                    {`${data.crawler_Title.substring(0, 15)}...`}
+                    {`${data.crawler_Title.substring(0, 50)}...`}
                   </MarqueeText>
                 </Goto>
               </>
             );
           })}
         </Marquee>
-      </div>
+      </AnnouncementContent>
     </AnnouncementBox>
   );
 };

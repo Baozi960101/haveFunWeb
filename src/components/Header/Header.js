@@ -8,7 +8,9 @@ import upArrow from "../../images/upArrow.svg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Goto = styled(Link)``;
+const Goto = styled(Link)`
+  text-decoration: none;
+`;
 
 const Top = styled.div`
   max-width: 1250px;
@@ -55,6 +57,7 @@ const HeaderTitle = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  color: white;
 
   @media screen and (max-width: 800px) {
     display: none;
@@ -141,9 +144,33 @@ function topFunction() {
   });
 }
 
+const DropDownBox = styled.div`
+  width: 160%;
+  max-height: 0px;
+  overflow: hidden;
+  background-color: #1d190b;
+  position: absolute;
+  margin-top: 10px;
+  transition: all 0.2s ease-in-out;
+
+  ${(props) => props.$move && `max-height:300px`}
+`;
+
+const DropDownContent = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  font-size: 18px;
+  color: white;
+  letter-spacing: 1px;
+`;
+
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [topBottomArise, setTopBottomArise] = useState(false);
+  const [entertainmentDropDown, setEntertainmentDropDown] = useState(false);
 
   let location = useLocation();
 
@@ -161,6 +188,10 @@ export default function Header() {
     setShowMenu(!showMenu);
   }
 
+  function handleDropDown() {
+    setEntertainmentDropDown(!entertainmentDropDown);
+  }
+
   return (
     <>
       <Goto to="/">
@@ -172,10 +203,31 @@ export default function Header() {
         <HeaderContent>
           <Menu src={showMenu ? close : menu} onClick={menuChange} />
           <HeaderTitle>U.S havefun</HeaderTitle>
-          <HeaderTitle>
-            星娛樂趣
-            <HeaderArrow src={downArrow} />
-          </HeaderTitle>
+          <Goto
+            to="/classification"
+            style={{ position: "relative" }}
+            onMouseOver={handleDropDown}
+            onMouseOut={handleDropDown}
+          >
+            <HeaderTitle>
+              星娛樂趣
+              <HeaderArrow src={downArrow} />
+            </HeaderTitle>
+            <DropDownBox $move={entertainmentDropDown}>
+              <Goto to="/classification">
+                <DropDownContent>子標籤</DropDownContent>
+              </Goto>
+              <Goto>
+                <DropDownContent>子標籤</DropDownContent>
+              </Goto>
+              <Goto>
+                <DropDownContent>子標籤</DropDownContent>
+              </Goto>
+              <Goto>
+                <DropDownContent>子標籤</DropDownContent>
+              </Goto>
+            </DropDownBox>
+          </Goto>
           <HeaderTitle>
             看正妹趣 <HeaderArrow src={downArrow} />
           </HeaderTitle>
