@@ -7,6 +7,8 @@ import close from "../../images/close.svg";
 import upArrow from "../../images/upArrow.svg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import rwdPlus from "../../images/rwdPlus.svg";
+import rwdCut from "../../images/rwdCut.svg";
 
 const Goto = styled(Link)`
   text-decoration: none;
@@ -82,6 +84,8 @@ const Menu = styled.img`
 `;
 
 const RWDMenu = styled.div`
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   height: 0px;
   background-color: #ae2d53;
@@ -93,6 +97,28 @@ const RWDMenu = styled.div`
   box-sizing: border-box;
   letter-spacing: 1px;
   padding-left: 60px;
+  padding-right: 20px;
+  cursor: pointer;
+
+  :hover {
+    color: #cbbb7c;
+  }
+
+  ${(props) => props.$move && `height:50px`}
+`;
+
+const RWDSubTitle = styled.div`
+  width: 100%;
+  height: 0px;
+  background-color: #ae2d53;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+  font-size: 18px;
+  color: white;
+  font-weight: 600;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  padding-left: 80px;
   cursor: pointer;
 
   :hover {
@@ -152,6 +178,7 @@ const DropDownBox = styled.div`
   position: absolute;
   margin-top: 10px;
   transition: all 0.2s ease-in-out;
+  z-index: 5;
 
   ${(props) => props.$move && `max-height:300px`}
 `;
@@ -167,10 +194,18 @@ const DropDownContent = styled.div`
   letter-spacing: 1px;
 `;
 
+const RWDSubTitleImg = styled.img`
+  width: 15px;
+  height: 15px;
+  margin-top: 5px;
+`;
+
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [topBottomArise, setTopBottomArise] = useState(false);
   const [entertainmentDropDown, setEntertainmentDropDown] = useState(false);
+  const [rwdEntertainmentDropDown, setRwdEntertainmentDropDown] =
+    useState(false);
 
   let location = useLocation();
 
@@ -185,11 +220,20 @@ export default function Header() {
   }, [location]);
 
   function menuChange() {
-    setShowMenu(!showMenu);
+    if (showMenu) {
+      setShowMenu(false);
+      setRwdEntertainmentDropDown(false);
+    } else {
+      setShowMenu(true);
+    }
   }
 
   function handleDropDown() {
     setEntertainmentDropDown(!entertainmentDropDown);
+  }
+
+  function handleRwdDropDown() {
+    setRwdEntertainmentDropDown(!rwdEntertainmentDropDown);
   }
 
   return (
@@ -251,14 +295,46 @@ export default function Header() {
           </HeaderTitle>
         </HeaderContent>
       </HeaderBox>
-      <RWDMenu $move={showMenu}>星娛樂趣</RWDMenu>
-      <RWDMenu $move={showMenu}>看正妹趣</RWDMenu>
-      <RWDMenu $move={showMenu}>動漫卡趣</RWDMenu>
-      <RWDMenu $move={showMenu}>電競游趣</RWDMenu>
-      <RWDMenu $move={showMenu}>科技電趣</RWDMenu>
-      <RWDMenu $move={showMenu}>汽機車趣</RWDMenu>
-      <RWDMenu $move={showMenu}>話題知趣</RWDMenu>
-      <RWDMenu $move={showMenu}>搜奇怪趣</RWDMenu>
+      <RWDMenu $move={showMenu}>
+        星娛樂趣
+        <RWDSubTitleImg
+          src={rwdEntertainmentDropDown ? rwdCut : rwdPlus}
+          onClick={handleRwdDropDown}
+        />
+      </RWDMenu>
+      <Goto to="/">
+        <RWDSubTitle $move={rwdEntertainmentDropDown}>音樂新聞</RWDSubTitle>
+      </Goto>
+      <RWDSubTitle $move={rwdEntertainmentDropDown}>影視戲劇</RWDSubTitle>
+      <RWDSubTitle $move={rwdEntertainmentDropDown}>明星藝人</RWDSubTitle>
+      <RWDMenu $move={showMenu}>
+        看正妹趣
+        <RWDSubTitleImg src={rwdPlus} />
+      </RWDMenu>
+      <RWDMenu $move={showMenu}>
+        動漫卡趣
+        <RWDSubTitleImg src={rwdPlus} />
+      </RWDMenu>
+      <RWDMenu $move={showMenu}>
+        電競游趣
+        <RWDSubTitleImg src={rwdPlus} />
+      </RWDMenu>
+      <RWDMenu $move={showMenu}>
+        科技電趣
+        <RWDSubTitleImg src={rwdPlus} />
+      </RWDMenu>
+      <RWDMenu $move={showMenu}>
+        汽機車趣
+        <RWDSubTitleImg src={rwdPlus} />
+      </RWDMenu>
+      <RWDMenu $move={showMenu}>
+        話題知趣
+        <RWDSubTitleImg src={rwdPlus} />
+      </RWDMenu>
+      <RWDMenu $move={showMenu}>
+        搜奇怪趣
+        <RWDSubTitleImg src={rwdPlus} />
+      </RWDMenu>
       {topBottomArise && <TopBottom onClick={topFunction} src={upArrow} />}
     </>
   );

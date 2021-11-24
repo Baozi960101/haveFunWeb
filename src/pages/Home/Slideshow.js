@@ -23,10 +23,14 @@ const CoverBox = styled.div`
   overflow: hidden;
   cursor: pointer;
   position: relative;
+
+  @media screen and (max-width: 799px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const Cover = styled.img`
-  height: 100%;
+  width: 100%;
 `;
 
 const CoverImgBox = styled.div`
@@ -107,7 +111,7 @@ export const Slideshow = ({ content }) => {
           {content.map((data) => {
             return (
               <>
-                <div className="each-slide">
+                <div key={data.crawler_No} className="each-slide">
                   <SlideShowMainPost
                     key={data.crawler_No}
                     to={data.crawler_No}
@@ -147,7 +151,7 @@ export const ClassificationSlideshow = ({ content }) => {
           {content.map((data) => {
             return (
               <>
-                <div className="each-slide">
+                <div key={data.crawler_No} className="each-slide">
                   <SlideShowMainPost
                     key={data.crawler_No}
                     to={data.crawler_No}

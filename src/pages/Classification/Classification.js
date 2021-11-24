@@ -6,7 +6,7 @@ import {
   ClassificationLinePostRWD,
 } from "../../global/QrCode";
 import useHandleArticle from "../../global/useHandleArticle";
-import { TestURL } from "../../global/API";
+import { TodayURL, PopularAPI } from "../../global/API";
 import {
   ClassificationArticle,
   BigBulletinBoard,
@@ -28,6 +28,7 @@ const MainBox = styled.div`
   }
   @media screen and (max-width: 799px) {
     display: block;
+    padding: 0px 1%;
   }
 `;
 
@@ -75,8 +76,8 @@ export default function ClassificationPost() {
   //只拿五筆的大型資料
 
   useEffect(() => {
-    FetchDate(TestURL);
-    fetch(TestURL)
+    FetchDate(TodayURL);
+    fetch(PopularAPI)
       .then((res) => res.json())
       .then((data) => {
         setFiveItemPost(data.data.slice(0, 5));
@@ -116,7 +117,7 @@ export default function ClassificationPost() {
         <ClassificationLinePostRWD />
       </MainBox>
       <MainBox>
-        <MainPostTitle style={{ width: "140px" }}>你可能會有興趣</MainPostTitle>
+        <MainPostTitle style={{ width: "150px" }}>你可能會有興趣</MainPostTitle>
       </MainBox>
       <MainBox>
         {fiveItemPost.map((data) => {

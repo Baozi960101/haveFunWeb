@@ -13,11 +13,18 @@ export default function useHandleArticle() {
 
   const [twoItemPost, setTwoItemPost] = useState([]);
   //只能精選2個的大型資料
-
-  const [fiveItemPost, setFiveItemPost] = useState([]);
+  const [disasterAPIData, setDisasterAPIData] = useState([]);
   //只拿五筆的大型資料
   const [verticalFourPost, setVerticalFourPost] = useState([]);
   //只拿直立式的4筆資料
+
+  const [kaohsiungData, setKaohsiungData] = useState([]);
+  const [taichungData, setTaichungData] = useState([]);
+  const [taipeiData, setTaipeiData] = useState([]);
+
+  const [popularData, setPopularData] = useState([]);
+
+  const [internationalityData, setInternationalityData] = useState([]);
 
   async function FetchDate(API) {
     setNowLoading(true);
@@ -49,16 +56,35 @@ export default function useHandleArticle() {
     return data.data.slice(0, 4);
   }
 
-  async function allfetch(API) {
+  async function allfetch(API, API2, API3, API4, API5, APIdisaster, APIint) {
     setNowLoading(true);
-    const [twoPost, fourPost, fivePost] = await Promise.all([
+    const [
+      twoPost,
+      fourPost,
+      fivePost,
+      kaohsiung,
+      taichung,
+      taipei,
+      popular,
+      internationality,
+    ] = await Promise.all([
       FetchTwoItem(API),
       FetchVerticalFourItem(API),
-      FetchFiveItem(API),
+      FetchFiveItem(APIdisaster),
+      FetchFiveItem(API2),
+      FetchFiveItem(API3),
+      FetchFiveItem(API4),
+      FetchFiveItem(API5),
+      FetchVerticalFourItem(APIint),
     ]);
     setTwoItemPost(twoPost);
     setVerticalFourPost(fourPost);
-    setFiveItemPost(fivePost);
+    setDisasterAPIData(fivePost);
+    setKaohsiungData(kaohsiung);
+    setTaichungData(taichung);
+    setTaipeiData(taipei);
+    setPopularData(popular);
+    setInternationalityData(internationality);
     setNowLoading(false);
   }
 
@@ -93,10 +119,9 @@ export default function useHandleArticle() {
   }
 
   return {
-    fiveItemPost,
+    disasterAPIData,
     verticalFourPost,
     twoItemPost,
-    setFiveItemPost,
     FetchFiveItem,
     FetchDate,
     post,
@@ -113,5 +138,10 @@ export default function useHandleArticle() {
     ChangePrevPage,
     allfetch,
     nowLoading,
+    kaohsiungData,
+    taichungData,
+    taipeiData,
+    popularData,
+    internationalityData,
   };
 }

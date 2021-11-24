@@ -12,7 +12,15 @@ import {
 } from "../../global/QrCode";
 import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
 import useHandleArticle from "../../global/useHandleArticle";
-import { TestURL } from "../../global/API";
+import {
+  TodayURL,
+  KaohsiungAPI,
+  TaichungAPI,
+  TaipeiAPI,
+  PopularAPI,
+  DisasterAPI,
+  InternationalityAPI,
+} from "../../global/API";
 import { Link } from "react-router-dom";
 import { LoadingBox } from "../../global/Loading";
 
@@ -80,7 +88,7 @@ const AnnouncementContent = styled.div`
   width: 1110px;
   position: relative;
 
-  @media screen and (min-width: 800px) and (max-width: 1300px) {
+  @media screen and (max-width: 1300px) {
     max-width: 80%;
   }
 `;
@@ -94,8 +102,8 @@ const Announcement = ({ content }) => {
           {content.map((data) => {
             return (
               <>
-                <Goto to={`/${data.crawler_No}`}>
-                  <MarqueeText key={data.crawler_No}>
+                <Goto key={data.crawler_No} to={`/${data.crawler_No}`}>
+                  <MarqueeText>
                     {`${data.crawler_Title.substring(0, 50)}...`}
                   </MarqueeText>
                 </Goto>
@@ -146,7 +154,7 @@ const MainPostTitleThree = () => {
       <PcMainPostTitle>
         <MainPost>
           <MainPostLeftBox>
-            <MainPostLeftText>玩家焦點</MainPostLeftText>
+            <MainPostLeftText>主要焦點</MainPostLeftText>
           </MainPostLeftBox>
           <MainPostMiddleBox>
             <MainPostMiddleText>精選特輯</MainPostMiddleText>
@@ -170,7 +178,7 @@ const MainPostLeftBox = styled.div`
 `;
 
 const MainPostLeftText = styled.div`
-  width: 80px;
+  width: 90px;
   padding-bottom: 7px;
   border-bottom: 3.5px solid orange;
   margin-bottom: 20px;
@@ -181,7 +189,7 @@ const MainPostLeft = ({ content }) => {
     <>
       <RWDMainPostTitle>
         <MainPostLeftBox>
-          <MainPostLeftText>玩家焦點</MainPostLeftText>
+          <MainPostLeftText>主要焦點</MainPostLeftText>
         </MainPostLeftBox>
       </RWDMainPostTitle>
       <MainPostLeftBox>
@@ -194,18 +202,18 @@ const MainPostLeft = ({ content }) => {
 const MainPostMiddleBox = styled.div`
   width: 24%;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: space-between;
 
   @media screen and (max-width: 799px) {
-    flex-direction: row;
     width: 97%;
     margin: 0 auto;
   }
 `;
 
 const MainPostMiddleText = styled.div`
-  width: 80px;
+  width: 90px;
   padding-bottom: 7px;
   border-bottom: 3.5px solid #ae2d53;
   margin-bottom: 20px;
@@ -374,6 +382,7 @@ const ArticleBox = styled.div`
   box-sizing: border-box;
   padding: 50px 0;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 50px;
 `;
@@ -386,12 +395,16 @@ const VerticalArticleBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 550px;
+
+  @media screen and (max-width: 767px) {
+    width: 97%;
+  }
 `;
 
 const ArticleMainTitle = styled.div`
   font-size: 20px;
   font-weight: 600;
-  width: 80px;
+  width: 90px;
   padding-bottom: 7px;
   border-bottom: 3.5px solid #ae2d53;
 `;
@@ -495,6 +508,7 @@ const MainBox = styled.div`
   }
   @media screen and (max-width: 799px) {
     display: block;
+    padding: 0px 1%;
   }
 `;
 
@@ -549,11 +563,29 @@ function MainBigBulletinBoard(fiveItemPost) {
 }
 
 export default function Home() {
-  const { fiveItemPost, verticalFourPost, twoItemPost, allfetch, nowLoading } =
-    useHandleArticle();
+  const {
+    disasterAPIData,
+    verticalFourPost,
+    twoItemPost,
+    allfetch,
+    nowLoading,
+    kaohsiungData,
+    taichungData,
+    taipeiData,
+    popularData,
+    internationalityData,
+  } = useHandleArticle();
 
   useEffect(() => {
-    allfetch(TestURL);
+    allfetch(
+      TodayURL,
+      KaohsiungAPI,
+      TaichungAPI,
+      TaipeiAPI,
+      PopularAPI,
+      DisasterAPI,
+      InternationalityAPI
+    );
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -571,9 +603,9 @@ export default function Home() {
       </MainPost>
       {/* 至頂廣告 */}
       <MainBox>
-        <MainPostTitle style={{ width: "80px" }}>玩遊戲啦</MainPostTitle>
+        <MainPostTitle style={{ width: "90px" }}>災害專區</MainPostTitle>
       </MainBox>
-      <MainBox>{MainBigBulletinBoard(fiveItemPost)}</MainBox>
+      <MainBox>{MainBigBulletinBoard(disasterAPIData)}</MainBox>
       {/* 以下是資訊欄 */}
       <ClassificationPost>
         <ClassificationPostLeftBox>
@@ -589,17 +621,17 @@ export default function Home() {
           </ArticleBox>
           <MainLeftBox style={{ width: "100%", border: "0" }}>
             <MainLeftNoBorderBox>
-              <MainPostTitle style={{ width: "100px" }}>
-                動漫控樂園
+              <MainPostTitle style={{ width: "110px" }}>
+                高雄資訊地
               </MainPostTitle>
             </MainLeftNoBorderBox>
-            {MainBigBulletinBoard(fiveItemPost)}
+            {MainBigBulletinBoard(kaohsiungData)}
           </MainLeftBox>
-          <ArticleMainTitle style={{ marginBottom: "30px", width: "120px" }}>
-            三國志戰略迷
+          <ArticleMainTitle style={{ marginBottom: "30px", width: "130px" }}>
+            國際新聞摘要
           </ArticleMainTitle>
           {/* {ClassificationSlideshow()} */}
-          <ClassificationSlideshow content={verticalFourPost} />
+          <ClassificationSlideshow content={internationalityData} />
           <ArticleBox style={{ borderTop: "0" }}>
             <VerticalArticleBox>
               <ArticleMainTitle>鄉民話題</ArticleMainTitle>
@@ -612,32 +644,32 @@ export default function Home() {
           </ArticleBox>
           <MainLeftBox style={{ width: "100%", border: "0" }}>
             <MainLeftNoBorderBox>
-              <MainPostTitle style={{ width: "100px" }}>
-                動漫控樂園
+              <MainPostTitle style={{ width: "110px" }}>
+                台中資訊地
               </MainPostTitle>
             </MainLeftNoBorderBox>
-            {MainBigBulletinBoard(fiveItemPost)}
+            {MainBigBulletinBoard(taichungData)}
           </MainLeftBox>
-          <ArticleMainTitle style={{ marginBottom: "30px", width: "120px" }}>
-            三國志戰略迷
+          <ArticleMainTitle style={{ marginBottom: "30px", width: "130px" }}>
+            國際新聞摘要
           </ArticleMainTitle>
-          <ClassificationSlideshow content={verticalFourPost} />
+          <ClassificationSlideshow content={internationalityData} />
         </ClassificationPostLeftBox>
         <ClassificationPostRight>
           <ClassificationPostRightContent />
         </ClassificationPostRight>
         <MainLeftBox>
           <MainLeftNoBorderBox>
-            <MainPostTitle style={{ width: "100px" }}>動漫控樂園</MainPostTitle>
+            <MainPostTitle style={{ width: "110px" }}>台北資訊地</MainPostTitle>
           </MainLeftNoBorderBox>
-          {MainBigBulletinBoard(fiveItemPost)}
+          {MainBigBulletinBoard(taipeiData)}
         </MainLeftBox>
       </ClassificationPost>
       <ClassificationLinePostRWD />
       <MainBox>
-        <MainPostTitle style={{ width: "140px" }}>你可能會有興趣</MainPostTitle>
+        <MainPostTitle style={{ width: "150px" }}>目前正在受歡迎</MainPostTitle>
       </MainBox>
-      <MainBox>{MainBigBulletinBoard(fiveItemPost)}</MainBox>
+      <MainBox>{MainBigBulletinBoard(popularData)}</MainBox>
     </>
   );
 }

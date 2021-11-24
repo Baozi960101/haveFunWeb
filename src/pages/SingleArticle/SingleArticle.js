@@ -6,7 +6,7 @@ import {
 } from "../../global/QrCode";
 import { SlugContext } from "../../global/context";
 import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
-import { TestURL, AloneApi } from "../../global/API";
+import { PopularAPI, AloneApi } from "../../global/API";
 import { LoadingBox } from "../../global/Loading";
 
 const MainBox = styled.div`
@@ -23,6 +23,7 @@ const MainBox = styled.div`
   }
   @media screen and (max-width: 799px) {
     display: block;
+    padding: 0px 1%;
   }
 `;
 
@@ -140,7 +141,7 @@ export default function AlonePost() {
           setSinglePost([data.data]);
         });
     }
-    fetch(TestURL)
+    fetch(PopularAPI)
       .then((res) => res.json())
       .then((data) => {
         setFiveItemPost(data.data.slice(0, 5));
@@ -174,7 +175,7 @@ export default function AlonePost() {
         <ClassificationLinePostRWD />
       </MainBox>
       <MainBox>
-        <MainPostTitle style={{ width: "140px" }}>你可能會有興趣</MainPostTitle>
+        <MainPostTitle style={{ width: "150px" }}>你可能會有興趣</MainPostTitle>
       </MainBox>
       <MainBox>
         {fiveItemPost.map((data) => {

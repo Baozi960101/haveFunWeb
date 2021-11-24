@@ -28,7 +28,7 @@ export const ClassificationPostRightContent = () => {
   return (
     <>
       <ClassificationPostLeftContentTitle
-        style={{ marginBottom: "30px", color: "red", width: "120px" }}
+        style={{ marginBottom: "30px", color: "red", width: "130px" }}
       >
         加入哈企鵝群
       </ClassificationPostLeftContentTitle>
