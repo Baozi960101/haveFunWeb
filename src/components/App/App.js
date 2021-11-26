@@ -8,7 +8,10 @@ import {
 import Header from "../Header";
 import Home from "../../pages/Home";
 import Fotter from "../Fotter";
-import Classification from "../../pages/Classification";
+import Boutiques from "../../pages/Boutiques";
+import Vehicles from "../../pages/Vehicles/Vehicles";
+import WorldNews from "../../pages/WorldNews/WorldNews";
+import FinancialNews from "../../pages/FinancialNews/FinancialNews";
 import SingleArticle from "../../pages/SingleArticle";
 import { SlugContext } from "../../global/context";
 
@@ -34,8 +37,17 @@ export default function App() {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route exact path="/classification">
-              <Classification />
+            <Route exact path="/boutiques">
+              <Boutiques />
+            </Route>
+            <Route exact path="/vehicles">
+              <Vehicles />
+            </Route>
+            <Route exact path="/worldnews">
+              <WorldNews />
+            </Route>
+            <Route exact path="/financialnews">
+              <FinancialNews />
             </Route>
             <Route path="/:slug">
               <BlogSinglePost />

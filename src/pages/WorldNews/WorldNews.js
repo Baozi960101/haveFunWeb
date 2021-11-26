@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ChangePageButton } from "../../global/changePage";
-import {
-  ClassificationPostRightContent,
-  ClassificationLinePostRWD,
-} from "../../global/QrCode";
+import { ClassificationPostRightContent } from "../../global/FbCode";
 import useHandleArticle from "../../global/useHandleArticle";
 import { TodayURL, PopularAPI } from "../../global/API";
 import {
@@ -37,13 +34,14 @@ const MainPostRight = styled.div`
   position: sticky;
   height: 750px;
   top: 0;
+  padding-left: 50px;
 
   @media screen and (min-width: 800px) and (max-width: 1100px) {
     width: 240px;
   }
 
   @media screen and (max-width: 799px) {
-    display: none;
+    width: 80%;
   }
 `;
 
@@ -69,7 +67,7 @@ const ClassificationArticleMainBox = styled.div`
   justify-content: space-between;
 `;
 
-export default function ClassificationPost() {
+export default function WorldNews() {
   const { FetchDate, post, page, ChangeNextPage, ChangePrevPage, nowLoading } =
     useHandleArticle();
   const [fiveItemPost, setFiveItemPost] = useState([]);
@@ -91,7 +89,7 @@ export default function ClassificationPost() {
       {nowLoading && <LoadingBox />}
       <MainBox>
         <MainPostLeft>
-          <MainTitle>星娛樂趣</MainTitle>
+          <MainTitle>World News</MainTitle>
           <ClassificationArticleMainBox>
             {post.map((data) => {
               return (
@@ -114,7 +112,6 @@ export default function ClassificationPost() {
         <MainPostRight>
           <ClassificationPostRightContent />
         </MainPostRight>
-        <ClassificationLinePostRWD />
       </MainBox>
       <MainBox>
         <MainPostTitle style={{ width: "150px" }}>你可能會有興趣</MainPostTitle>

@@ -30,7 +30,7 @@ let LastNowDate = getDay(-7);
 
 export const TestURL = `${MainURL}/data?key=高雄市&start_date=${LastNowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
 
-export const TodayURL = `${MainURL}/data?key=高雄市&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
+export const TodayURL = `${MainURL}/data?key=高雄市&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes,ptt,yahoo`;
 
 export const KaohsiungAPI = `${MainURL}/data?key=高雄市&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
 

@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import logoImg from "../../images/logo.jpg";
 import menu from "../../images/menu.svg";
-import downArrow from "../../images/downArrow.svg";
 import close from "../../images/close.svg";
 import upArrow from "../../images/upArrow.svg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import rwdPlus from "../../images/rwdPlus.svg";
-import rwdCut from "../../images/rwdCut.svg";
+import hinduHopeLogo from "../../images/hinduHopeLogo.svg";
 
 const Goto = styled(Link)`
   text-decoration: none;
@@ -66,12 +63,6 @@ const HeaderTitle = styled.div`
   }
 `;
 
-const HeaderArrow = styled.img`
-  width: 12px;
-  height: 12px;
-  margin-left: 7px;
-`;
-
 const Menu = styled.img`
   width: 25px;
   height: 25px;
@@ -98,27 +89,6 @@ const RWDMenu = styled.div`
   letter-spacing: 1px;
   padding-left: 60px;
   padding-right: 20px;
-  cursor: pointer;
-
-  :hover {
-    color: #cbbb7c;
-  }
-
-  ${(props) => props.$move && `height:50px`}
-`;
-
-const RWDSubTitle = styled.div`
-  width: 100%;
-  height: 0px;
-  background-color: #ae2d53;
-  overflow: hidden;
-  transition: height 0.3s ease-in-out;
-  font-size: 18px;
-  color: white;
-  font-weight: 600;
-  box-sizing: border-box;
-  letter-spacing: 1px;
-  padding-left: 80px;
   cursor: pointer;
 
   :hover {
@@ -170,42 +140,9 @@ function topFunction() {
   });
 }
 
-const DropDownBox = styled.div`
-  width: 160%;
-  max-height: 0px;
-  overflow: hidden;
-  background-color: #1d190b;
-  position: absolute;
-  margin-top: 10px;
-  transition: all 0.2s ease-in-out;
-  z-index: 5;
-
-  ${(props) => props.$move && `max-height:300px`}
-`;
-
-const DropDownContent = styled.div`
-  width: 100%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  padding-left: 15px;
-  font-size: 18px;
-  color: white;
-  letter-spacing: 1px;
-`;
-
-const RWDSubTitleImg = styled.img`
-  width: 15px;
-  height: 15px;
-  margin-top: 5px;
-`;
-
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const [topBottomArise, setTopBottomArise] = useState(false);
-  const [entertainmentDropDown, setEntertainmentDropDown] = useState(false);
-  const [rwdEntertainmentDropDown, setRwdEntertainmentDropDown] =
-    useState(false);
 
   let location = useLocation();
 
@@ -222,119 +159,48 @@ export default function Header() {
   function menuChange() {
     if (showMenu) {
       setShowMenu(false);
-      setRwdEntertainmentDropDown(false);
     } else {
       setShowMenu(true);
     }
-  }
-
-  function handleDropDown() {
-    setEntertainmentDropDown(!entertainmentDropDown);
-  }
-
-  function handleRwdDropDown() {
-    setRwdEntertainmentDropDown(!rwdEntertainmentDropDown);
   }
 
   return (
     <>
       <Goto to="/">
         <Top>
-          <Logo src={logoImg} />
+          <Logo src={hinduHopeLogo} />
         </Top>
       </Goto>
       <HeaderBox>
         <HeaderContent>
           <Menu src={showMenu ? close : menu} onClick={menuChange} />
-          <HeaderTitle>U.S havefun</HeaderTitle>
-          <Goto
-            to="/classification"
-            style={{ position: "relative" }}
-            onMouseOver={handleDropDown}
-            onMouseOut={handleDropDown}
+          <HeaderTitle>Hinduhope</HeaderTitle>
+          <div
+            style={{
+              width: "40%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
           >
-            <HeaderTitle>
-              星娛樂趣
-              <HeaderArrow src={downArrow} />
-            </HeaderTitle>
-            <DropDownBox $move={entertainmentDropDown}>
-              <Goto to="/classification">
-                <DropDownContent>子標籤</DropDownContent>
-              </Goto>
-              <Goto>
-                <DropDownContent>子標籤</DropDownContent>
-              </Goto>
-              <Goto>
-                <DropDownContent>子標籤</DropDownContent>
-              </Goto>
-              <Goto>
-                <DropDownContent>子標籤</DropDownContent>
-              </Goto>
-            </DropDownBox>
-          </Goto>
-          <HeaderTitle>
-            看正妹趣 <HeaderArrow src={downArrow} />
-          </HeaderTitle>
-          <HeaderTitle>
-            動漫卡趣 <HeaderArrow src={downArrow} />
-          </HeaderTitle>
-          <HeaderTitle>
-            電競游趣 <HeaderArrow src={downArrow} />
-          </HeaderTitle>
-          <HeaderTitle>
-            科技電趣 <HeaderArrow src={downArrow} />
-          </HeaderTitle>
-          <HeaderTitle>
-            汽機車趣 <HeaderArrow src={downArrow} />
-          </HeaderTitle>
-          <HeaderTitle>
-            話題知趣 <HeaderArrow src={downArrow} />
-          </HeaderTitle>
-          <HeaderTitle>
-            搜奇怪趣 <HeaderArrow src={downArrow} />
-          </HeaderTitle>
+            <Goto to="/boutiques">
+              <HeaderTitle>Boutiques</HeaderTitle>
+            </Goto>
+            <Goto to="/vehicles">
+              <HeaderTitle>Vehicles</HeaderTitle>
+            </Goto>
+            <Goto to="/worldnews">
+              <HeaderTitle>World News</HeaderTitle>
+            </Goto>
+            <Goto to="/financialnews">
+              <HeaderTitle>Financial News</HeaderTitle>
+            </Goto>
+          </div>
         </HeaderContent>
       </HeaderBox>
-      <RWDMenu $move={showMenu}>
-        星娛樂趣
-        <RWDSubTitleImg
-          src={rwdEntertainmentDropDown ? rwdCut : rwdPlus}
-          onClick={handleRwdDropDown}
-        />
-      </RWDMenu>
-      <Goto to="/">
-        <RWDSubTitle $move={rwdEntertainmentDropDown}>音樂新聞</RWDSubTitle>
-      </Goto>
-      <RWDSubTitle $move={rwdEntertainmentDropDown}>影視戲劇</RWDSubTitle>
-      <RWDSubTitle $move={rwdEntertainmentDropDown}>明星藝人</RWDSubTitle>
-      <RWDMenu $move={showMenu}>
-        看正妹趣
-        <RWDSubTitleImg src={rwdPlus} />
-      </RWDMenu>
-      <RWDMenu $move={showMenu}>
-        動漫卡趣
-        <RWDSubTitleImg src={rwdPlus} />
-      </RWDMenu>
-      <RWDMenu $move={showMenu}>
-        電競游趣
-        <RWDSubTitleImg src={rwdPlus} />
-      </RWDMenu>
-      <RWDMenu $move={showMenu}>
-        科技電趣
-        <RWDSubTitleImg src={rwdPlus} />
-      </RWDMenu>
-      <RWDMenu $move={showMenu}>
-        汽機車趣
-        <RWDSubTitleImg src={rwdPlus} />
-      </RWDMenu>
-      <RWDMenu $move={showMenu}>
-        話題知趣
-        <RWDSubTitleImg src={rwdPlus} />
-      </RWDMenu>
-      <RWDMenu $move={showMenu}>
-        搜奇怪趣
-        <RWDSubTitleImg src={rwdPlus} />
-      </RWDMenu>
+      <RWDMenu $move={showMenu}>Boutiques</RWDMenu>
+      <RWDMenu $move={showMenu}>Vehicles</RWDMenu>
+      <RWDMenu $move={showMenu}>World News</RWDMenu>
+      <RWDMenu $move={showMenu}>Financial News</RWDMenu>
       {topBottomArise && <TopBottom onClick={topFunction} src={upArrow} />}
     </>
   );

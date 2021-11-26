@@ -6,10 +6,7 @@ import {
   SlideShowMainPost,
   ClassificationSlideshow,
 } from "./Slideshow";
-import {
-  ClassificationPostRightContent,
-  ClassificationLinePostRWD,
-} from "../../global/QrCode";
+import { ClassificationPostRightContent } from "../../global/FbCode";
 import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
 import useHandleArticle from "../../global/useHandleArticle";
 import {
@@ -482,7 +479,7 @@ const VerticalFourArticle = ({ to, src, label, text, time }) => {
 const ClassificationPostRight = styled.div`
   width: 30%;
   position: sticky;
-  height: 750px;
+  height: 500px;
   top: 0;
 
   @media screen and (min-width: 800px) and (max-width: 1100px) {
@@ -490,7 +487,8 @@ const ClassificationPostRight = styled.div`
   }
 
   @media screen and (max-width: 799px) {
-    display: none;
+    width: 80%;
+    position: relative;
   }
 `;
 
@@ -665,7 +663,6 @@ export default function Home() {
           {MainBigBulletinBoard(taipeiData)}
         </MainLeftBox>
       </ClassificationPost>
-      <ClassificationLinePostRWD />
       <MainBox>
         <MainPostTitle style={{ width: "150px" }}>目前正在受歡迎</MainPostTitle>
       </MainBox>

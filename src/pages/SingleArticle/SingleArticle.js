@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import {
-  ClassificationPostRightContent,
-  ClassificationLinePostRWD,
-} from "../../global/QrCode";
+import { ClassificationPostRightContent } from "../../global/FbCode";
 import { SlugContext } from "../../global/context";
 import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
 import { PopularAPI, AloneApi } from "../../global/API";
 import { LoadingBox } from "../../global/Loading";
+import { ScrollToTop } from "../../global/Scroll";
 
 const MainBox = styled.div`
   font-size: 20px;
@@ -32,13 +30,14 @@ const MainPostRight = styled.div`
   position: sticky;
   height: 750px;
   top: 0;
+  padding-left: 50px;
 
   @media screen and (min-width: 800px) and (max-width: 1100px) {
     width: 240px;
   }
 
   @media screen and (max-width: 799px) {
-    display: none;
+    width: 80%;
   }
 `;
 
@@ -134,6 +133,7 @@ export default function AlonePost() {
 
   useEffect(() => {
     setNowLoading(true);
+    ScrollToTop();
     if (aloneSlug !== "") {
       fetch(AloneApi(aloneSlug))
         .then((res) => res.json())
@@ -172,7 +172,6 @@ export default function AlonePost() {
         <MainPostRight>
           <ClassificationPostRightContent />
         </MainPostRight>
-        <ClassificationLinePostRWD />
       </MainBox>
       <MainBox>
         <MainPostTitle style={{ width: "150px" }}>你可能會有興趣</MainPostTitle>

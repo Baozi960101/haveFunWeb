@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+const Goto = styled(Link)`
+  text-decoration: none;
+`;
 
 const Box = styled.div`
   width: 100%;
@@ -39,16 +44,32 @@ export default function Fotter() {
     <>
       <Box>
         <FooterBox>
-          <FotterTitle style={{ letterSpacing: "0px" }}>
-            U.S havefun
-          </FotterTitle>
-          <FotterTitle>看正妹趣</FotterTitle>
-          <FotterTitle>動漫卡趣</FotterTitle>
-          <FotterTitle>電競游趣</FotterTitle>
-          <FotterTitle>科技電趣</FotterTitle>
-          <FotterTitle>汽機車趣</FotterTitle>
-          <FotterTitle>話題知趣</FotterTitle>
-          <FotterTitle>搜奇怪趣</FotterTitle>
+          <Goto to="/">
+            <FotterTitle style={{ letterSpacing: "0px" }}>
+              Hinduhope
+            </FotterTitle>
+          </Goto>
+          <div
+            style={{
+              width: "50%",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+            }}
+          >
+            <Goto to="/boutiques">
+              <FotterTitle>Boutiques</FotterTitle>
+            </Goto>
+            <Goto to="/vehicles">
+              <FotterTitle>Vehicles</FotterTitle>
+            </Goto>
+            <Goto to="/worldnews">
+              <FotterTitle>World News</FotterTitle>
+            </Goto>
+            <Goto to="/financialnews">
+              <FotterTitle>Financial News</FotterTitle>
+            </Goto>
+          </div>
         </FooterBox>
       </Box>
     </>
