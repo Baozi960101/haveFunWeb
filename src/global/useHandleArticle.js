@@ -26,6 +26,9 @@ export default function useHandleArticle() {
 
   const [internationalityData, setInternationalityData] = useState([]);
 
+  //以下是來源 
+  const [ allSourse , setAllSourse ] = useState("")
+
   async function FetchDate(API) {
     setNowLoading(true);
     const res = await fetch(API);
@@ -143,5 +146,7 @@ export default function useHandleArticle() {
     taipeiData,
     popularData,
     internationalityData,
+    allSourse,
+    setAllSourse
   };
 }

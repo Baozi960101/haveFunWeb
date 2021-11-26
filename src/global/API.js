@@ -25,8 +25,22 @@ export function FetchTestAPI() {
   return fetch(TestURL).then((res) => res.json());
 }
 
+
 let nowDate = getDay(0);
 let LastNowDate = getDay(-7);
+
+export function confirmWebsiteName() {
+  return fetch()
+  .then((res) => res.json());
+}
+
+export function testFetchAPI(keyword,sourse) {
+  return fetch(`${MainURL}/data?key=${keyword}&start_date=${LastNowDate}&end_date=${nowDate}&crawler_Web=${sourse}`)
+  .then((res) => res.json());
+}
+
+
+
 
 export const TestURL = `${MainURL}/data?key=高雄市&start_date=${LastNowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
 
