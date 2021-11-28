@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { ChangePageButton } from "../../global/changePage";
 import { ClassificationPostRightContent } from "../../global/FbCode";
 import useHandleArticle from "../../global/useHandleArticle";
-import { TodayURL, PopularAPI } from "../../global/API";
 import {
   ClassificationArticle,
   BigBulletinBoard,
@@ -68,18 +67,20 @@ const ClassificationArticleMainBox = styled.div`
 `;
 
 export default function Vehicles() {
-  const { FetchDate, post, page, ChangeNextPage, ChangePrevPage, nowLoading } =
-    useHandleArticle();
-  const [fiveItemPost, setFiveItemPost] = useState([]);
-  //只拿五筆的大型資料
+  const {
+    post,
+    page,
+    ChangeNextPage,
+    ChangePrevPage,
+    nowLoading,
+    vehiclesPageArticle,
+    popularData,
+    popularArticle,
+  } = useHandleArticle();
 
   useEffect(() => {
-    FetchDate(TodayURL);
-    fetch(PopularAPI)
-      .then((res) => res.json())
-      .then((data) => {
-        setFiveItemPost(data.data.slice(0, 5));
-      });
+    vehiclesPageArticle();
+    popularArticle();
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -114,10 +115,10 @@ export default function Vehicles() {
         </MainPostRight>
       </MainBox>
       <MainBox>
-        <MainPostTitle style={{ width: "150px" }}>你可能會有興趣</MainPostTitle>
+        <MainPostTitle style={{ width: "150px" }}>More Like This</MainPostTitle>
       </MainBox>
       <MainBox>
-        {fiveItemPost.map((data) => {
+        {popularData.map((data) => {
           return (
             <BigBulletinBoard
               key={data.crawler_No}

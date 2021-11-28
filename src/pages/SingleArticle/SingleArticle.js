@@ -6,6 +6,7 @@ import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
 import { PopularAPI, AloneApi } from "../../global/API";
 import { LoadingBox } from "../../global/Loading";
 import { ScrollToTop } from "../../global/Scroll";
+import useHandleArticle from "../../global/useHandleArticle";
 
 const MainBox = styled.div`
   font-size: 20px;
@@ -117,7 +118,7 @@ const MainSingleArticle = ({ label, title, time, src, content }) => {
       <PostTitle>{title}</PostTitle>
       <PostTime>{time}</PostTime>
       <PostMainImgBox>
-        <PostMainImg alt="新聞圖" src={src} />
+        <PostMainImg alt="news" src={src} />
       </PostMainImgBox>
       <PostMainText>{content}</PostMainText>
     </>
@@ -127,9 +128,9 @@ const MainSingleArticle = ({ label, title, time, src, content }) => {
 export default function AlonePost() {
   const { aloneSlug } = useContext(SlugContext);
   const [singlePost, setSinglePost] = useState([]);
-  const [fiveItemPost, setFiveItemPost] = useState([]);
-  const [nowLoading, setNowLoading] = useState(false);
-  //只拿五筆的大型資料
+
+  const { popularData, popularArticle, setNowLoading, nowLoading } =
+    useHandleArticle();
 
   useEffect(() => {
     setNowLoading(true);
@@ -139,17 +140,17 @@ export default function AlonePost() {
         .then((res) => res.json())
         .then((data) => {
           setSinglePost([data.data]);
+          setNowLoading(false);
         });
     }
-    fetch(PopularAPI)
-      .then((res) => res.json())
-      .then((data) => {
-        setFiveItemPost(data.data.slice(0, 5));
-        setNowLoading(false);
-      });
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aloneSlug]);
+
+  useEffect(() => {
+    popularArticle();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -174,10 +175,10 @@ export default function AlonePost() {
         </MainPostRight>
       </MainBox>
       <MainBox>
-        <MainPostTitle style={{ width: "150px" }}>你可能會有興趣</MainPostTitle>
+        <MainPostTitle style={{ width: "150px" }}>More Like This</MainPostTitle>
       </MainBox>
       <MainBox>
-        {fiveItemPost.map((data) => {
+        {popularData.map((data) => {
           return (
             <BigBulletinBoard
               key={data.crawler_No}

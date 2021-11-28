@@ -1,5 +1,7 @@
 const MainURL = "https://argus.work/argus/api/v1";
 
+const MainApi = "https://api.hinduhope.com/api/v1/data";
+
 function getDay(day) {
   let today = new Date();
   let targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
@@ -21,43 +23,23 @@ function doHandleMonth(month) {
   return m;
 }
 
-export function FetchTestAPI() {
-  return fetch(TestURL).then((res) => res.json());
-}
-
-
 let nowDate = getDay(0);
 let LastNowDate = getDay(-7);
 
 export function confirmWebsiteName() {
-  return fetch()
-  .then((res) => res.json());
+  return fetch().then((res) => res.json());
 }
 
-export function testFetchAPI(keyword,sourse) {
-  return fetch(`${MainURL}/data?key=${keyword}&start_date=${LastNowDate}&end_date=${nowDate}&crawler_Web=${sourse}`)
-  .then((res) => res.json());
+export function testFetchAPI(keyword, sourse) {
+  return fetch(
+    `${MainURL}/data?key=${keyword}&start_date=${LastNowDate}&end_date=${nowDate}&crawler_Web=${sourse}`
+  ).then((res) => res.json());
 }
-
-
-
-
-export const TestURL = `${MainURL}/data?key=高雄市&start_date=${LastNowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
-
-export const TodayURL = `${MainURL}/data?key=高雄市&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes,ptt,yahoo`;
-
-export const KaohsiungAPI = `${MainURL}/data?key=高雄市&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
-
-export const TaichungAPI = `${MainURL}/data?key=台中市&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
-
-export const TaipeiAPI = `${MainURL}/data?key=台北市&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
-
-export const PopularAPI = `${MainURL}/data?key=疫苗&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
-
-export const DisasterAPI = `${MainURL}/data?key=災害&start_date=${LastNowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
-
-export const InternationalityAPI = `${MainURL}/data?key=國際&start_date=${nowDate}&end_date=${nowDate}&crawler_Web=chinatimes`;
 
 export const AloneApi = (id) => {
-  return `${MainURL}/data/${id}`;
+  return `${MainApi}/${id}`;
 };
+
+export function fetchAPIName(source) {
+  return `${MainApi}?start_date=${LastNowDate}&end_date=${nowDate}&crawler_Web=${source}`;
+}

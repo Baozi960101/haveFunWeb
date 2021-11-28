@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollToTop } from "./Scroll";
+import { fetchAPIName } from "./API";
 
 //此包含引入所有文章的功能 以及換頁功能
 export default function useHandleArticle() {
@@ -13,21 +14,19 @@ export default function useHandleArticle() {
 
   const [twoItemPost, setTwoItemPost] = useState([]);
   //只能精選2個的大型資料
-  const [disasterAPIData, setDisasterAPIData] = useState([]);
-  //只拿五筆的大型資料
-  const [verticalFourPost, setVerticalFourPost] = useState([]);
-  //只拿直立式的4筆資料
 
-  const [kaohsiungData, setKaohsiungData] = useState([]);
-  const [taichungData, setTaichungData] = useState([]);
-  const [taipeiData, setTaipeiData] = useState([]);
+  const [horizontalFinancialNews, setHorizontalFinancialNews] = useState([]);
+  const [horizontalVehicles, setHorizontalVehicles] = useState([]);
+  const [horizontalWorldNews, setHorizontalWorldNews] = useState([]);
+
+  const [boutiquesData, setBoutiquesData] = useState([]);
+  const [financialNewsData, setFinancialNewsData] = useState([]);
+  const [vehiclesData, setVehiclesData] = useState([]);
+  const [worldNewsData, setWorldNewsData] = useState([]);
 
   const [popularData, setPopularData] = useState([]);
 
-  const [internationalityData, setInternationalityData] = useState([]);
-
-  //以下是來源 
-  const [ allSourse , setAllSourse ] = useState("")
+  //以下是來源
 
   async function FetchDate(API) {
     setNowLoading(true);
@@ -41,54 +40,131 @@ export default function useHandleArticle() {
     setNowLoading(false);
   }
 
-  async function FetchTwoItem(API) {
-    const res = await fetch(API);
+  async function FetchTwoItem(source) {
+    const res = await fetch(fetchAPIName(source));
     const data = await res.json();
     return data.data.slice(0, 2);
   }
 
-  async function FetchFiveItem(API) {
-    const res = await fetch(API);
+  async function FetchFiveItem(source) {
+    const res = await fetch(fetchAPIName(source));
     const data = await res.json();
     return data.data.slice(0, 5);
   }
 
-  async function FetchVerticalFourItem(API) {
-    const res = await fetch(API);
+  async function FetchVerticalFourItem(source) {
+    const res = await fetch(fetchAPIName(source));
     const data = await res.json();
     return data.data.slice(0, 4);
   }
 
-  async function allfetch(API, API2, API3, API4, API5, APIdisaster, APIint) {
+  async function allfetch() {
     setNowLoading(true);
+    const res = await fetch(
+      `https://api.hinduhope.com/api/v1/data/showWeb?groups_Type=hinduhope`
+    );
+    const { data } = await res.json();
+    const Boutiques = data.Boutiques.map((item) => {
+      return item.source_Name;
+    });
+    const Vehicles = data.Vehicles.map((item) => {
+      return item.source_Name;
+    });
+    const WorldNews = data.WorldNews.map((item) => {
+      return item.source_Name;
+    });
+    const FinancialNews = data.FinancialNews.map((item) => {
+      return item.source_Name;
+    });
     const [
-      twoPost,
-      fourPost,
-      fivePost,
-      kaohsiung,
-      taichung,
-      taipei,
-      popular,
-      internationality,
+      verticalFourBoutiques,
+      verticalFourvehicles,
+      verticalFourWorldNews,
+      verticalFourFinancialNews,
+      horizontalFinancialNews,
+      horizontalVehicles,
+      horizontalWorldNews,
+      vehicles,
     ] = await Promise.all([
-      FetchTwoItem(API),
-      FetchVerticalFourItem(API),
-      FetchFiveItem(APIdisaster),
-      FetchFiveItem(API2),
-      FetchFiveItem(API3),
-      FetchFiveItem(API4),
-      FetchFiveItem(API5),
-      FetchVerticalFourItem(APIint),
+      FetchVerticalFourItem(Boutiques.join()),
+      FetchVerticalFourItem(Vehicles.join()),
+      FetchVerticalFourItem(WorldNews.join()),
+      FetchVerticalFourItem(FinancialNews.join()),
+      FetchFiveItem(FinancialNews.join()),
+      FetchFiveItem(Vehicles.join()),
+      FetchFiveItem(WorldNews.join()),
+      FetchTwoItem(Vehicles.join()),
     ]);
-    setTwoItemPost(twoPost);
-    setVerticalFourPost(fourPost);
-    setDisasterAPIData(fivePost);
-    setKaohsiungData(kaohsiung);
-    setTaichungData(taichung);
-    setTaipeiData(taipei);
-    setPopularData(popular);
-    setInternationalityData(internationality);
+    setBoutiquesData(verticalFourBoutiques);
+    setVehiclesData(verticalFourvehicles);
+    setWorldNewsData(verticalFourWorldNews);
+    setFinancialNewsData(verticalFourFinancialNews);
+    setHorizontalFinancialNews(horizontalFinancialNews);
+    setHorizontalVehicles(horizontalVehicles);
+    setHorizontalWorldNews(horizontalWorldNews);
+    setTwoItemPost(vehicles);
     setNowLoading(false);
+  }
+
+  async function boutiquesPageArticle() {
+    setNowLoading(true);
+    const res = await fetch(
+      `https://api.hinduhope.com/api/v1/data/showWeb?groups_Type=hinduhope`
+    );
+    const { data } = await res.json();
+    const Boutiques = data.Boutiques.map((item) => {
+      return item.source_Name;
+    });
+    FetchDate(fetchAPIName(Boutiques.join()));
+  }
+
+  async function vehiclesPageArticle() {
+    setNowLoading(true);
+    const res = await fetch(
+      `https://api.hinduhope.com/api/v1/data/showWeb?groups_Type=hinduhope`
+    );
+    const { data } = await res.json();
+    const Vehicles = data.Vehicles.map((item) => {
+      return item.source_Name;
+    });
+    FetchDate(fetchAPIName(Vehicles.join()));
+  }
+
+  async function worldNewsPageArticle() {
+    setNowLoading(true);
+    const res = await fetch(
+      `https://api.hinduhope.com/api/v1/data/showWeb?groups_Type=hinduhope`
+    );
+    const { data } = await res.json();
+    const WorldNews = data.WorldNews.map((item) => {
+      return item.source_Name;
+    });
+    FetchDate(fetchAPIName(WorldNews.join()));
+  }
+
+  async function financialNewsPageArticle() {
+    setNowLoading(true);
+    const res = await fetch(
+      `https://api.hinduhope.com/api/v1/data/showWeb?groups_Type=hinduhope`
+    );
+    const { data } = await res.json();
+    const FinancialNews = data.FinancialNews.map((item) => {
+      return item.source_Name;
+    });
+    FetchDate(fetchAPIName(FinancialNews.join()));
+  }
+
+  async function popularArticle() {
+    const res = await fetch(
+      `https://api.hinduhope.com/api/v1/data/showWeb?groups_Type=hinduhope`
+    );
+    const { data } = await res.json();
+    const Boutiques = data.Boutiques.map((item) => {
+      return item.source_Name;
+    });
+    const homeRes = await fetch(fetchAPIName(Boutiques.join()));
+    const homedata01 = await homeRes.json();
+    setPopularData(homedata01.data.slice(0, 5));
   }
 
   async function ChangePrevPage() {
@@ -96,6 +172,7 @@ export default function useHandleArticle() {
       alert("目前在第一頁囉");
       return;
     }
+    setNowLoading(true);
     const res = await fetch(prevPage);
     const data = await res.json();
     setPost(data.data);
@@ -104,6 +181,7 @@ export default function useHandleArticle() {
     setNextPage(data.links.next);
     setNowLastPage(data.meta.last_page);
     ScrollToTop();
+    setNowLoading(false);
   }
 
   async function ChangeNextPage() {
@@ -111,6 +189,7 @@ export default function useHandleArticle() {
       alert("最後一頁囉");
       return;
     }
+    setNowLoading(true);
     const res = await fetch(nextPage);
     const data = await res.json();
     setPost(data.data);
@@ -119,13 +198,11 @@ export default function useHandleArticle() {
     setNextPage(data.links.next);
     setNowLastPage(data.meta.last_page);
     ScrollToTop();
+    setNowLoading(false);
   }
 
   return {
-    disasterAPIData,
-    verticalFourPost,
     twoItemPost,
-    FetchFiveItem,
     FetchDate,
     post,
     setPost,
@@ -141,12 +218,19 @@ export default function useHandleArticle() {
     ChangePrevPage,
     allfetch,
     nowLoading,
-    kaohsiungData,
-    taichungData,
-    taipeiData,
+    setNowLoading,
     popularData,
-    internationalityData,
-    allSourse,
-    setAllSourse
+    boutiquesPageArticle,
+    popularArticle,
+    vehiclesPageArticle,
+    financialNewsPageArticle,
+    worldNewsPageArticle,
+    boutiquesData,
+    financialNewsData,
+    vehiclesData,
+    worldNewsData,
+    horizontalFinancialNews,
+    horizontalVehicles,
+    horizontalWorldNews,
   };
 }

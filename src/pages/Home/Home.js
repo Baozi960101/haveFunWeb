@@ -9,15 +9,6 @@ import {
 import { ClassificationPostRightContent } from "../../global/FbCode";
 import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
 import useHandleArticle from "../../global/useHandleArticle";
-import {
-  TodayURL,
-  KaohsiungAPI,
-  TaichungAPI,
-  TaipeiAPI,
-  PopularAPI,
-  DisasterAPI,
-  InternationalityAPI,
-} from "../../global/API";
 import { Link } from "react-router-dom";
 import { LoadingBox } from "../../global/Loading";
 
@@ -151,13 +142,13 @@ const MainPostTitleThree = () => {
       <PcMainPostTitle>
         <MainPost>
           <MainPostLeftBox>
-            <MainPostLeftText>主要焦點</MainPostLeftText>
+            <MainPostLeftText>Main</MainPostLeftText>
           </MainPostLeftBox>
           <MainPostMiddleBox>
-            <MainPostMiddleText>精選特輯</MainPostMiddleText>
+            <MainPostMiddleText>Special</MainPostMiddleText>
           </MainPostMiddleBox>
           <MainPostMiddleBox>
-            <MainPostLeftText>最新資訊</MainPostLeftText>
+            <MainPostLeftText>Newest</MainPostLeftText>
           </MainPostMiddleBox>
         </MainPost>
       </PcMainPostTitle>
@@ -186,7 +177,7 @@ const MainPostLeft = ({ content }) => {
     <>
       <RWDMainPostTitle>
         <MainPostLeftBox>
-          <MainPostLeftText>主要焦點</MainPostLeftText>
+          <MainPostLeftText>Main</MainPostLeftText>
         </MainPostLeftBox>
       </RWDMainPostTitle>
       <MainPostLeftBox>
@@ -221,7 +212,7 @@ const MainPostMiddle = ({ content }) => {
     <>
       <RWDMainPostTitle>
         <MainPostMiddleBox>
-          <MainPostMiddleText>精選特輯</MainPostMiddleText>
+          <MainPostMiddleText>Special</MainPostMiddleText>
         </MainPostMiddleBox>
       </RWDMainPostTitle>
       <MainPostMiddleBox>
@@ -342,7 +333,7 @@ const MainPostRight = ({ content }) => {
     <>
       <RWDMainPostTitle>
         <MainPostRightBox>
-          <MainPostLeftText>最新資訊</MainPostLeftText>
+          <MainPostLeftText>Newest</MainPostLeftText>
         </MainPostRightBox>
       </RWDMainPostTitle>
       <MainPostRightBox>{content}</MainPostRightBox>
@@ -401,7 +392,7 @@ const VerticalArticleBox = styled.div`
 const ArticleMainTitle = styled.div`
   font-size: 20px;
   font-weight: 600;
-  width: 90px;
+  width: 150px;
   padding-bottom: 7px;
   border-bottom: 3.5px solid #ae2d53;
 `;
@@ -562,28 +553,23 @@ function MainBigBulletinBoard(fiveItemPost) {
 
 export default function Home() {
   const {
-    disasterAPIData,
-    verticalFourPost,
-    twoItemPost,
     allfetch,
     nowLoading,
-    kaohsiungData,
-    taichungData,
-    taipeiData,
     popularData,
-    internationalityData,
+    popularArticle,
+    boutiquesData,
+    financialNewsData,
+    vehiclesData,
+    worldNewsData,
+    horizontalFinancialNews,
+    horizontalVehicles,
+    horizontalWorldNews,
+    twoItemPost,
   } = useHandleArticle();
 
   useEffect(() => {
-    allfetch(
-      TodayURL,
-      KaohsiungAPI,
-      TaichungAPI,
-      TaipeiAPI,
-      PopularAPI,
-      DisasterAPI,
-      InternationalityAPI
-    );
+    allfetch();
+    popularArticle();
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -595,76 +581,67 @@ export default function Home() {
       {/* 公告欄 */}
       <MainPostTitleThree />
       <MainPost>
-        <MainPostLeft content={verticalFourPost} />
+        <MainPostLeft content={boutiquesData} />
         <MainPostMiddle content={twoItemPost} />
-        <MainPostRight content={VerticalFourArticleMain(verticalFourPost)} />
+        <MainPostRight content={VerticalFourArticleMain(vehiclesData)} />
       </MainPost>
-      {/* 至頂廣告 */}
-      <MainBox>
-        <MainPostTitle style={{ width: "90px" }}>災害專區</MainPostTitle>
-      </MainBox>
-      <MainBox>{MainBigBulletinBoard(disasterAPIData)}</MainBox>
-      {/* 以下是資訊欄 */}
       <ClassificationPost>
         <ClassificationPostLeftBox>
           <ArticleBox>
             <VerticalArticleBox>
-              <ArticleMainTitle>鄉民話題</ArticleMainTitle>
-              {VerticalFourArticleMain(verticalFourPost)}
+              <ArticleMainTitle>Boutiques</ArticleMainTitle>
+              {VerticalFourArticleMain(boutiquesData)}
             </VerticalArticleBox>
             <VerticalArticleBox>
-              <ArticleMainTitle>鄉民話題</ArticleMainTitle>
-              {VerticalFourArticleMain(verticalFourPost)}
+              <ArticleMainTitle>Vehicles</ArticleMainTitle>
+              {VerticalFourArticleMain(vehiclesData)}
             </VerticalArticleBox>
           </ArticleBox>
           <MainLeftBox style={{ width: "100%", border: "0" }}>
             <MainLeftNoBorderBox>
-              <MainPostTitle style={{ width: "110px" }}>
-                高雄資訊地
+              <MainPostTitle style={{ width: "150px" }}>
+                Financial News
               </MainPostTitle>
             </MainLeftNoBorderBox>
-            {MainBigBulletinBoard(kaohsiungData)}
+            {MainBigBulletinBoard(horizontalFinancialNews)}
           </MainLeftBox>
           <ArticleMainTitle style={{ marginBottom: "30px", width: "130px" }}>
-            國際新聞摘要
+            Vehicles
           </ArticleMainTitle>
-          {/* {ClassificationSlideshow()} */}
-          <ClassificationSlideshow content={internationalityData} />
+          <ClassificationSlideshow content={vehiclesData} />
           <ArticleBox style={{ borderTop: "0" }}>
             <VerticalArticleBox>
-              <ArticleMainTitle>鄉民話題</ArticleMainTitle>
-              {VerticalFourArticleMain(verticalFourPost)}
+              <ArticleMainTitle>Financial News</ArticleMainTitle>
+              {VerticalFourArticleMain(financialNewsData)}
             </VerticalArticleBox>
             <VerticalArticleBox>
-              <ArticleMainTitle>鄉民話題</ArticleMainTitle>
-              {VerticalFourArticleMain(verticalFourPost)}
+              <ArticleMainTitle>World News</ArticleMainTitle>
+              {VerticalFourArticleMain(worldNewsData)}
             </VerticalArticleBox>
           </ArticleBox>
           <MainLeftBox style={{ width: "100%", border: "0" }}>
             <MainLeftNoBorderBox>
-              <MainPostTitle style={{ width: "110px" }}>
-                台中資訊地
-              </MainPostTitle>
+              <MainPostTitle style={{ width: "150px" }}>Vehicles</MainPostTitle>
             </MainLeftNoBorderBox>
-            {MainBigBulletinBoard(taichungData)}
+            {MainBigBulletinBoard(horizontalVehicles)}
           </MainLeftBox>
           <ArticleMainTitle style={{ marginBottom: "30px", width: "130px" }}>
-            國際新聞摘要
+            World News
           </ArticleMainTitle>
-          <ClassificationSlideshow content={internationalityData} />
+          <ClassificationSlideshow content={horizontalWorldNews} />
         </ClassificationPostLeftBox>
         <ClassificationPostRight>
           <ClassificationPostRightContent />
         </ClassificationPostRight>
         <MainLeftBox>
           <MainLeftNoBorderBox>
-            <MainPostTitle style={{ width: "110px" }}>台北資訊地</MainPostTitle>
+            <MainPostTitle style={{ width: "150px" }}>World News</MainPostTitle>
           </MainLeftNoBorderBox>
-          {MainBigBulletinBoard(taipeiData)}
+          {MainBigBulletinBoard(horizontalWorldNews)}
         </MainLeftBox>
       </ClassificationPost>
       <MainBox>
-        <MainPostTitle style={{ width: "150px" }}>目前正在受歡迎</MainPostTitle>
+        <MainPostTitle style={{ width: "150px" }}>More Like This</MainPostTitle>
       </MainBox>
       <MainBox>{MainBigBulletinBoard(popularData)}</MainBox>
     </>
