@@ -84,7 +84,7 @@ const AnnouncementContent = styled.div`
 const Announcement = ({ content }) => {
   return (
     <AnnouncementBox>
-      <AnnouncementTitle>最新消息</AnnouncementTitle>
+      <AnnouncementTitle>Newest</AnnouncementTitle>
       <AnnouncementContent>
         <Marquee speed="100" pauseOnHover="true">
           {content.map((data) => {
