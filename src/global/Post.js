@@ -11,7 +11,7 @@ export const MainPostTitle = styled.div`
   font-weight: 600;
   width: 80px;
   padding-bottom: 7px;
-  border-bottom: 3.5px solid #ae2d53;
+  border-bottom: 3.5px solid #f18b23;
 `;
 
 const ClassificationArticleBox = styled.div`

@@ -10,7 +10,7 @@ const Box = styled.div`
   padding: 30px 20px;
   display: flex;
   justify-content: center;
-  background-color: #54595f;
+  background-color: #f18b23;
   box-sizing: border-box;
 `;
 

@@ -44,7 +44,7 @@ const AnnouncementTitle = styled.div`
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: #ae2d53;
+  background-color: #f18b23;
   letter-spacing: 1px;
   box-sizing: border-box;
 
@@ -471,7 +471,7 @@ const ClassificationPostRight = styled.div`
   width: 30%;
   position: sticky;
   height: 500px;
-  top: 0;
+  top: 90px;
 
   @media screen and (min-width: 800px) and (max-width: 1100px) {
     width: 240px;

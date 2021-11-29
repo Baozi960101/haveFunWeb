@@ -5,7 +5,7 @@ import close from "../../images/close.svg";
 import upArrow from "../../images/upArrow.svg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import hinduHopeLogo from "../../images/hinduHopeLogo.svg";
+import HinduHopeLongLogo from "../../images/HinduHopeLongLogo.svg";
 
 const Goto = styled(Link)`
   text-decoration: none;
@@ -22,9 +22,9 @@ const Top = styled.div`
 `;
 
 const Logo = styled.img`
-  margin: 40px 0;
-  width: 120px;
-  height: 120px;
+  margin: 20px 0;
+  width: 180px;
+  height: 80px;
   cursor: pointer;
 `;
 
@@ -36,15 +36,19 @@ const HeaderBox = styled.div`
   width: 100%;
   height: 60px;
   box-sizing: border-box;
-  background-color: #ae2d53;
+  background-color: #f18b23;
   font-size: 16px;
   color: white;
   font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 5;
 
   @media screen and (min-width: 800px) and (max-width: 1100px) {
     font-size: 14px;
   }
 `;
+
 const HeaderContent = styled.div`
   display: flex;
   justify-content: space-between;
@@ -109,7 +113,7 @@ const TopBottomBox = styled.div`
   right: 40px;
   cursor: pointer;
   z-index: 3;
-  background-color: #ae2d53;
+  background-color: #f18b23;
   border-radius: 5px;
 `;
 
@@ -168,7 +172,7 @@ export default function Header() {
     <>
       <Goto to="/">
         <Top>
-          <Logo src={hinduHopeLogo} />
+          <Logo src={HinduHopeLongLogo} />
         </Top>
       </Goto>
       <HeaderBox>

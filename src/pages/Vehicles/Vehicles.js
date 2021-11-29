@@ -32,7 +32,7 @@ const MainPostRight = styled.div`
   width: 32%;
   position: sticky;
   height: 750px;
-  top: 0;
+  top: 90px;
   padding-left: 50px;
 
   @media screen and (min-width: 800px) and (max-width: 1100px) {
