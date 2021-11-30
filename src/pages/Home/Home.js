@@ -11,6 +11,7 @@ import { BigBulletinBoard, MainPostTitle } from "../../global/Post";
 import useHandleArticle from "../../global/useHandleArticle";
 import { Link } from "react-router-dom";
 import { LoadingBox } from "../../global/Loading";
+import { SEO } from "../../global/Post";
 
 const Goto = styled(Link)`
   text-decoration: none;
@@ -452,6 +453,7 @@ const ClassificationPostLeftContentMain = ({ to, label, text, time }) => {
 const VerticalFourArticle = ({ to, src, label, text, time }) => {
   return (
     <>
+      <SEO title={text} src={src} />
       <MainPostRightText>
         <Goto to={`/${to}`}>
           <MainPostRightImg width="100%" height="auto" src={src} />

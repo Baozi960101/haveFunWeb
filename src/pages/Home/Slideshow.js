@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import { Link } from "react-router-dom";
+import { SEO } from "../../global/Post";
 
 const Goto = styled(Link)`
   text-decoration: none;
@@ -79,16 +80,19 @@ export const SlideShowMainPost = ({
   time,
 }) => {
   return (
-    <Goto to={`${to}`}>
-      <CoverBox style={{ height: height }}>
-        <Cover src={src} />
-        <CoverImgBox>
-          <CoverImgLabel>{label}</CoverImgLabel>
-          <CoverImgTitle style={{ fontSize: fontSize }}>{text}</CoverImgTitle>
-          <CoverImgTime>{time}</CoverImgTime>
-        </CoverImgBox>
-      </CoverBox>
-    </Goto>
+    <>
+      <SEO title={text} src={src} />
+      <Goto to={`${to}`}>
+        <CoverBox style={{ height: height }}>
+          <Cover src={src} />
+          <CoverImgBox>
+            <CoverImgLabel>{label}</CoverImgLabel>
+            <CoverImgTitle style={{ fontSize: fontSize }}>{text}</CoverImgTitle>
+            <CoverImgTime>{time}</CoverImgTime>
+          </CoverImgBox>
+        </CoverBox>
+      </Goto>
+    </>
   );
 };
 

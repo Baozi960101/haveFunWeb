@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import HinduHopeLongLogo from "../images/HinduHopeLongLogo.svg";
+import hh180 from "../images/hh180.jpeg";
+import hh192 from "../images/hh192.jpeg";
 
 const Goto = styled(Link)`
   text-decoration: none;
@@ -52,10 +56,55 @@ const ClassificationArticleTime = styled.div`
   margin-top: 10px;
 `;
 
+export const SEO = ({ title, src }) => (
+  <Helmet>
+    <title> HinduHope | {title} </title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="./hinduHopeLogo.svg" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:url" itemprop="url" content="https://hinduhope.com/" />
+    <meta
+      property="og:title"
+      itemprop="name"
+      content={`HinduHope | ${title}`}
+    />
+    <meta
+      property="og:image"
+      itemprop="image"
+      content={src !== "" ? src : HinduHopeLongLogo}
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:type" content="website" />
+    <meta
+      name="description"
+      content="Welcome to Hindu Hope! Visit to Hindu Hope to get the latest Indian sports, vehicles, boutiques, financial and world news."
+    />
+    <meta
+      property="og:description"
+      itemprop="description"
+      content="Welcome to Hindu Hope! Visit to Hindu Hope to get the latest Indian sports, vehicles, boutiques, financial and world news."
+    />
+    <meta name="viewport" content="width=1280" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:locale" content="en-IN" />
+    <meta property="fb:app_id" content="288360329845012" />
+    <meta property="og:site_name" name="application-name" content="HinduHope" />
+    <meta
+      property="article:publisher"
+      content="https://www.facebook.com/HinduHope"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href={hh180} />
+    <link rel="shortcut icon" sizes="192x192" href={hh192} />
+  </Helmet>
+);
+
 export const ClassificationArticle = ({ to, src, title, time }) => {
   return (
     <>
       <ClassificationArticleBox>
+        <SEO title={title} src={src} />
         <Goto to={`/${to}`}>
           <ClassificationArticleImgBox>
             <ClassificationArticleImg alt="news" src={src} />
@@ -128,6 +177,7 @@ export const BigBulletinBoard = ({ to, src, title, time }) => {
   return (
     <>
       <BigBulletinBoardBox>
+        <SEO title={title} src={src} />
         <Goto to={`/${to}`}>
           <BigBulletinBoardImgBox>
             <BigBulletinBoardImg alt="news" src={src} />

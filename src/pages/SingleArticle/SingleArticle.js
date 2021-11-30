@@ -7,6 +7,7 @@ import { AloneApi } from "../../global/API";
 import { LoadingBox } from "../../global/Loading";
 import { ScrollToTop } from "../../global/Scroll";
 import useHandleArticle from "../../global/useHandleArticle";
+import { SEO } from "../../global/Post";
 
 const MainBox = styled.div`
   font-size: 20px;
@@ -110,6 +111,7 @@ const PostMainText = styled.div`
 const MainSingleArticle = ({ label, title, time, src, content }) => {
   return (
     <>
+      <SEO title={title} src={src} />
       <PostTitleLabel>
         <PostSubTitleLabel>{label}</PostSubTitleLabel>
         {/* <PostSubTitleLabel>遊戲攻略</PostSubTitleLabel>
